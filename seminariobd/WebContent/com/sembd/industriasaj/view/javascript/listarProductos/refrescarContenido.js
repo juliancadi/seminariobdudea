@@ -1,5 +1,6 @@
-function Carga(id,url)
+function refresh(id, ref)
 {
+
 	//Creamos un objeto dependiendo del navegador
 	var objeto;
 	if (window.XMLHttpRequest){
@@ -21,15 +22,15 @@ function Carga(id,url)
 	}
 	//Cuando XMLHttpRequest cambie de estado, ejecutamos esta funcion
 	objeto.onreadystatechange=function(){
-		cargarobjeto(objeto,id);
+		loadobject(objeto,id);
 	};
 
-	objeto.open('GET', url+"?hola=11",true); // indicamos con el método open la url a cargar de manera asíncrona
+	objeto.open('GET', "com/sembd/industriasaj/view/ensayo.jsp?referencia="+ref,true); // indicamos con el método open la url a cargar de manera asíncrona
 	objeto.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
 	objeto.send(null); // Enviamos los datos con el metodo send
 }
 
-function cargarobjeto(objeto, id){
+function loadobject(objeto, id){
 	if (objeto.readyState == 4) //si se ha cargado completamente
 		document.getElementById(id).innerHTML=objeto.responseText;
 	else //en caso contrario, mostramos un gif simulando una precarga
