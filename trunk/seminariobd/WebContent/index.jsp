@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Bienvenido a Industrias AJ</title>
 <style type="text/css"> 
 <!-- 
 body  {
@@ -87,10 +87,10 @@ body  {
 /* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
 </style>
 <![endif]-->
-<script src="com/sembd/industriasaj/view/javascript/index/SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
-<script src="com/sembd/industriasaj/view/javascript/index/cargarContenido.js" type="text/javascript"></script>
-<link href="com/sembd/industriasaj/view/javascript/index/SpryAssets/SpryMenuBarVertical.css" rel="stylesheet" type="text/css" />
-<script src="com/sembd/industriasaj/view/javascript/listarProductos/refrescarContenido.js" type="text/javascript"></script>
+<script src="com/sembd/industriasaj/view/index/css/SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
+<script src="com/sembd/industriasaj/view/index/javascript/cargarContenido.js" type="text/javascript"></script>
+<link href="com/sembd/industriasaj/view/index/css/SpryAssets/SpryMenuBarVertical.css" rel="stylesheet" type="text/css" />
+<script src="com/sembd/industriasaj/view/listarProductos/javascript/refrescarContenido.js" type="text/javascript"></script>
 </head>
 
 <body class="twoColLiqLtHdr">
@@ -103,22 +103,22 @@ body  {
     <ul id="MenuBar1" class="MenuBarVertical">
       <li><a class="MenuBarItemSubmenu" href="#">Producto</a>
           <ul>
-            <li><a href="javascript:Carga('com/sembd/industriasaj/view/listarProductos.jsp', 'mainContent');">Listar Productos</a></li>
-            <li><a href="#">Consultar Pedidos y Entregas</a></li>
+            <li><a href="javascript:Carga('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp', 'mainContent');">Listar Productos</a></li>
+            <li><a href="javascript:Carga('com/sembd/industriasaj/view/consultarPedEnt/consultarPedEnt.jsp', 'mainContent');">Consultar Pedidos y Entregas</a></li>
           </ul>
       </li>
       <li><a class="MenuBarItemSubmenu" href="#">Pedido</a>
           <ul>
-            <li><a href="#">Modificar Pedido</a></li>
-            <li><a href="#">Eliminar Pedido</a></li>
-            <li><a href="#">Consultar Entregas</a></li>
+            <li><a href="javascript:Carga('com/sembd/industriasaj/view/modificarPedido/modificarPedido.jsp', 'mainContent');">Modificar Pedido</a></li>
+            <li><a href="javascript:Carga('com/sembd/industriasaj/view/eliminarPedido/eliminarPedido.jsp', 'mainContent');">Eliminar Pedido</a></li>
+            <li><a href="javascript:Carga('com/sembd/industriasaj/view/consultarEntregas/consultarEntregas.jsp', 'mainContent');">Consultar Entregas</a></li>
           </ul>
       </li>
-      <li><a href="#" title="Cargar contenido" >Ingresar Entrega</a></li>
+      <li><a href="javascript:Carga('com/sembd/industriasaj/view/ingresarEntrega/ingresarEntrega.jsp', 'mainContent');" title="Cargar contenido" >Ingresar Entrega</a></li>
       <li><a class="MenuBarItemSubmenu" href="#">Factura</a>
           <ul>
-            <li><a href="#">Ingresar Factura</a></li>
-            <li><a href="#">Consultar Entregas</a></li>
+            <li><a href="javascript:Carga('com/sembd/industriasaj/view/ingresarFactura/ingresarFactura.jsp', 'mainContent');">Ingresar Factura</a></li>
+            <li><a href="javascript:Carga('com/sembd/industriasaj/view/consultarEntregas/consultarEntregas.jsp', 'mainContent');">Consultar Entregas</a></li>
           </ul>
       </li>
     </ul>
