@@ -90,6 +90,7 @@ body  {
 <script src="com/sembd/industriasaj/view/javascript/index/SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
 <script src="com/sembd/industriasaj/view/javascript/index/cargarContenido.js" type="text/javascript"></script>
 <link href="com/sembd/industriasaj/view/javascript/index/SpryAssets/SpryMenuBarVertical.css" rel="stylesheet" type="text/css" />
+<script src="com/sembd/industriasaj/view/javascript/listarProductos/refrescarContenido.js" type="text/javascript"></script>
 </head>
 
 <body class="twoColLiqLtHdr">
