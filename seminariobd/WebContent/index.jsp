@@ -118,7 +118,7 @@ body  {
       <li><a class="MenuBarItemSubmenu" href="#">Factura</a>
           <ul>
             <li><a href="javascript:Carga('com/sembd/industriasaj/view/ingresarFactura/ingresarFactura.jsp', 'mainContent');">Ingresar Factura</a></li>
-            <li><a href="javascript:Carga('com/sembd/industriasaj/view/consultarEntregas/consultarEntregas.jsp', 'mainContent');">Consultar Entregas</a></li>
+            <li><a href="javascript:Carga('com/sembd/industriasaj/view/consultarEntregasPorFact/consultarEntregasPorFact.jsp', 'mainContent');">Consultar Entregas</a></li>
           </ul>
       </li>
     </ul>
