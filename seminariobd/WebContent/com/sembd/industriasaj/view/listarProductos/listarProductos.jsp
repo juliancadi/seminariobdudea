@@ -37,7 +37,7 @@ body {
 -->
 </style>
 <script src="css/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
-<script src="javascript/refrescarContenido.js" type="text/javascript"></script>
+<script src="../javascript/cargarContenido.js" type="text/javascript"></script>
 <link href="css/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
@@ -56,8 +56,9 @@ body {
     <h1 align="center">Listar Producto</h1>
     <form id="form1" name="form1" method="post" action="">
     <span id="spryselect1">
-        <label>Producto:
-          <select name="lista_productos" id="lista_productos" onchange="javascript:refresh('informacion', this.value);">
+        <label><span style="font-weight: bold;">Producto:</span>
+          <select name="lista_productos" id="lista_productos" onchange="javascript:Carga('com/sembd/industriasaj/view/listarProductos/listarProductosReport.jsp?ref='+this.value,'informacion');">
+          <option value="0"> - </option>
           <% 
           if(productos.size()!=0){
           for(int i=0;i<productos.size();i++){
@@ -72,11 +73,6 @@ body {
     </form>
     <p>&nbsp;</p>
     <div id="informacion"> </div>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
   <!-- end #mainContent --></div>
 <!-- end #container --></div>
 <script type="text/javascript">

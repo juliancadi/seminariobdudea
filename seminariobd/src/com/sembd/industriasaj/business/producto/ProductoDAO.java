@@ -2,6 +2,7 @@ package com.sembd.industriasaj.business.producto;
 
 import java.util.List;
 
+import com.sembd.industriasaj.business.pedido.PedidoManager;
 import com.sembd.industriasaj.business.tipo.TipoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;
 import java.sql.Connection;
@@ -44,6 +45,8 @@ public class ProductoDAO {
                 pro.setPrecioUnitario(rs.getInt(7));
                 pro.setValorMin(rs.getInt(8));
                 pro.setValorOptimo(rs.getInt(9));
+                PedidoManager pm = PedidoManager.getPedidoManager();
+                pro.setTbPedidos(pm.getPedidosPorProducto(pd));
                 result = pro;
             }
         }
@@ -80,6 +83,8 @@ public class ProductoDAO {
                     pro.setPrecioUnitario(rs.getInt(7));
                     pro.setValorMin(rs.getInt(8));
                     pro.setValorOptimo(rs.getInt(9));
+                    PedidoManager pm = PedidoManager.getPedidoManager();
+                    pro.setTbPedidos(pm.getPedidosPorProducto(pro));
                     result.add(pro);
                 }
             }
@@ -94,6 +99,46 @@ public class ProductoDAO {
             }
             return result;
 	}
+    
+    public List<ProductoDTO> getProductosPorTipo(TipoDTO t){
+        List<ProductoDTO> result = null;
+        Connection con = null;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(ProductoDAOHelper.getProductosPorTipo());
+            
+            p.setString(1, t.getCodigo());
+            ResultSet rs = p.executeQuery();
+            result = new ArrayList<ProductoDTO>();
+            while(rs.next()){
+            	ProductoDTO pro = new ProductoDTO();
+                pro.setReferencia(rs.getString(1));
+                pro.setIdentificador(rs.getString(2));
+                TipoDTO tipo = new TipoDTO();
+                tipo.setCodigo(rs.getString(3));
+                tipo.setMultiplo(rs.getInt(4));
+                pro.setTbTipo(tipo);
+                pro.setDescripcion(rs.getString(5));
+                pro.setCantStock(rs.getInt(6));
+                pro.setPrecioUnitario(rs.getInt(7));
+                pro.setValorMin(rs.getInt(8));
+                pro.setValorOptimo(rs.getInt(9));
+                PedidoManager pm = PedidoManager.getPedidoManager();
+                pro.setTbPedidos(pm.getPedidosPorProducto(pro));
+                result.add(pro);
+            }
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
+}
 
     public boolean existProducto(ProductoDTO pd){
         boolean result=false;

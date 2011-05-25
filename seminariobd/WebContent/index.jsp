@@ -88,9 +88,8 @@ body  {
 </style>
 <![endif]-->
 <script src="com/sembd/industriasaj/view/index/css/SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
-<script src="com/sembd/industriasaj/view/index/javascript/cargarContenido.js" type="text/javascript"></script>
+<script src="com/sembd/industriasaj/view/javascript/cargarContenido.js" type="text/javascript"></script>
 <link href="com/sembd/industriasaj/view/index/css/SpryAssets/SpryMenuBarVertical.css" rel="stylesheet" type="text/css" />
-<script src="com/sembd/industriasaj/view/listarProductos/javascript/refrescarContenido.js" type="text/javascript"></script>
 </head>
 
 <body class="twoColLiqLtHdr">
