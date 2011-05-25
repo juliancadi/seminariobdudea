@@ -1,6 +1,20 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="com.sembd.industriasaj.business.producto.ProductoDTO"%>
+<%@page import="com.sembd.industriasaj.business.producto.ProductoManager"%>
+<%@page import="java.util.List"%>
+<%
+String referencia = (String)request.getParameter("ref");
+ProductoManager pm = ProductoManager.getProductoManager();
+ProductoDTO producto = new ProductoDTO();
+ProductoDTO productoConsultado = null;
+if(referencia!=null){
+	producto.setReferencia(referencia);
+	productoConsultado = pm.getProducto(producto);
+}
 
+
+%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -44,20 +58,51 @@ body {
 <body class="oneColLiqCtrHdr">
 
 <div id="container">
-  <div id="mainContent">
-    <h1 align="center"><%= request.getParameter("ref") %></h1>
     <form id="form1" name="form1" method="post" action="">
+    <%if(productoConsultado!=null){ %>
+<table width="500" border="0">
+  <tr>
+    <td width="128"><div align="right" style="font-weight: bold;">Referencia:</div></td>
+    <td width="199"><%=productoConsultado.getReferencia() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Descripcion:</div></td>
+    <td><%=productoConsultado.getDescripcion() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Precio Unitario:</div></td>
+    <td><%=productoConsultado.getPrecioUnitario() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Cantidad:</div></td>
+    <td> 
+    <%if(productoConsultado.getCantStock()<productoConsultado.getValorMin()){ %>
+       <span style="color: red;"> <%= productoConsultado.getCantStock() %> </span>
+     <%}
+    else{
+    %>
+     <%= productoConsultado.getCantStock() %> 
+     <%} %>
+     </td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Valor Minimo:</div></td>
+    <td><%=productoConsultado.getValorMin() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Valor Optimo:</div></td>
+    <td><%=productoConsultado.getValorOptimo() %></td>
+  </tr>
 
-        
+</table>
+  <%if(productoConsultado.getCantStock()<productoConsultado.getValorMin()){ %>
+    <div align="center" style="color: red;">La cantidad en stock esta por debajo del minimo.
+    &nbsp;
+    <input type="button" value="Realizar Pedido" />
+    </div>
+  <%} %>
+        <%} %>
     </form>
-    <p>&nbsp;</p>
-    <div id="informacion"> <%= request.getParameter("ref") %> </div>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-  <!-- end #mainContent --></div>
 <!-- end #container --></div>
 <script type="text/javascript">
 <!--

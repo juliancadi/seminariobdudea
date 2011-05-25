@@ -2,6 +2,8 @@ package com.sembd.industriasaj.business.producto;
 
 import java.util.List;
 
+import com.sembd.industriasaj.business.tipo.TipoDTO;
+
 public class ProductoManager {
 	
 	private ProductoDAO dao =  ProductoDAO.getProductoDAO();
@@ -25,6 +27,12 @@ public class ProductoManager {
    public List<ProductoDTO> getProductos(){
        List<ProductoDTO> productos = null;
        productos = dao.getProductos();
+       return productos;
+	}
+   
+   public List<ProductoDTO> getProductosPorTipo(TipoDTO t){
+       List<ProductoDTO> productos = null;
+       productos = dao.getProductosPorTipo(t);
        return productos;
 	}
 
