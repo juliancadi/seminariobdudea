@@ -120,3 +120,5 @@ create table tb_factura of ty_factura;
 alter table tb_factura add constraint tb_factura_pk primary key (codigo);
 /
 
+insert into tb_pedido (codigo,referencia) values ('PC-001',(select ref(p) from tb_producto p where identificador='bcd'));
+/
