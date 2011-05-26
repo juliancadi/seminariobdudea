@@ -4,6 +4,7 @@
 <%@page import="com.sembd.industriasaj.business.producto.ProductoManager"%>
 <%@page import="java.util.List"%>
 <%
+
 ProductoManager pm = ProductoManager.getProductoManager();
 List<ProductoDTO> productos = pm.getProductos();
 
@@ -70,6 +71,8 @@ body {
         </select>
       </label>
         <span class="selectRequiredMsg">Por favor seleccione un producto.</span></span>
+        &nbsp;
+        <input type="button" value="Ver lista productos debajo del minimo" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductosReport2.jsp?ref=0','mainContent');"/>
     </form>
     <p>&nbsp;</p>
     <div id="informacion"> </div>

@@ -89,6 +89,7 @@ body  {
 <![endif]-->
 <script src="com/sembd/industriasaj/view/index/css/SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
 <script src="com/sembd/industriasaj/view/javascript/cargarContenido.js" type="text/javascript"></script>
+<script src="com/sembd/industriasaj/view/javascript/cargarPadre.js" type="text/javascript"></script>
 <link href="com/sembd/industriasaj/view/index/css/SpryAssets/SpryMenuBarVertical.css" rel="stylesheet" type="text/css" />
 </head>
 

@@ -5,7 +5,6 @@ import java.util.List;
 import com.sembd.industriasaj.business.entrega.EntregaManager;
 import com.sembd.industriasaj.business.factura.FacturaDTO;
 import com.sembd.industriasaj.business.producto.ProductoDTO;
-import com.sembd.industriasaj.business.tipo.TipoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

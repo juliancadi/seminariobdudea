@@ -3,12 +3,15 @@
 <%@page import="com.sembd.industriasaj.business.producto.ProductoDTO"%>
 <%@page import="com.sembd.industriasaj.business.producto.ProductoManager"%>
 <%@page import="java.util.List"%>
+
+
 <%
 String referencia = (String)request.getParameter("ref");
 ProductoManager pm = ProductoManager.getProductoManager();
-ProductoDTO producto = new ProductoDTO();
 ProductoDTO productoConsultado = null;
+
 if(referencia!=null){
+	ProductoDTO producto = new ProductoDTO();
 	producto.setReferencia(referencia);
 	productoConsultado = pm.getProducto(producto);
 }
@@ -45,6 +48,7 @@ body {
 </style>
 <script src="javascript/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
 <link href="javascript/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
+<script src="../javascript/cargarPadre.js" type="text/javascript"></script>
 
 <style type="text/css">
 <!--
@@ -98,7 +102,7 @@ body {
   <%if(productoConsultado.getCantStock()<productoConsultado.getValorMin()){ %>
     <div align="center" style="color: red;">La cantidad en stock esta por debajo del minimo.
     &nbsp;
-    <input type="button" value="Realizar Pedido" />
+    <input type="button" value="Realizar Pedido Individual" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductosReport2.jsp?ref=<%=referencia%>','mainContent');"/>
     </div>
   <%} %>
         <%} %>
@@ -107,7 +111,10 @@ body {
 <script type="text/javascript">
 <!--
 var spryselect1 = new Spry.Widget.ValidationSelect("spryselect1");
+
 //-->
 </script>
 </body>
 </html>
+
+

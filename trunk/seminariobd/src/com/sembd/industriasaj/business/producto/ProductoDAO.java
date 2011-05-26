@@ -139,6 +139,48 @@ public class ProductoDAO {
         }
         return result;
 }
+    
+    public List<ProductoDTO> getProductosDebajoDelMin(){
+        List<ProductoDTO> result = null;
+        Connection con = null;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(ProductoDAOHelper.getProductos());
+            ResultSet rs = p.executeQuery();
+            result = new ArrayList<ProductoDTO>();
+            while(rs.next()){
+            	ProductoDTO pro = new ProductoDTO();
+                pro.setReferencia(rs.getString(1));
+                pro.setIdentificador(rs.getString(2));
+                TipoDTO tipo = new TipoDTO();
+                tipo.setCodigo(rs.getString(3));
+                tipo.setMultiplo(rs.getInt(4));
+                pro.setTbTipo(tipo);
+                pro.setDescripcion(rs.getString(5));
+                pro.setCantStock(rs.getInt(6));
+                pro.setPrecioUnitario(rs.getInt(7));
+                pro.setValorMin(rs.getInt(8));
+                pro.setValorOptimo(rs.getInt(9));
+                PedidoManager pm = PedidoManager.getPedidoManager();
+                pro.setTbPedidos(pm.getPedidosPorProducto(pro));
+                ProductoManager prom = ProductoManager.getProductoManager();
+                int cantidadPedida = prom.getCantidadPedida(pro);
+                if((cantidadPedida+pro.getCantStock())<pro.getValorMin()){
+                	result.add(pro);
+                }
+            }
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
+}
 
     public boolean existProducto(ProductoDTO pd){
         boolean result=false;
