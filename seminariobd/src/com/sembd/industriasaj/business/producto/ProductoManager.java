@@ -35,6 +35,22 @@ public class ProductoManager {
        productos = dao.getProductosPorTipo(t);
        return productos;
 	}
+   
+   public List<ProductoDTO> getProductosDebajoDelMin(){
+       List<ProductoDTO> productos = null;
+       productos = dao.getProductosDebajoDelMin();
+       return productos;
+	}
+   
+   public int getCantidadPedida(ProductoDTO p){
+	   int cantidadPedida = 0;
+       if(p.getTbPedidos()!=null){
+           for(int i=0; i<p.getTbPedidos().size();i++){
+           	cantidadPedida = cantidadPedida + p.getTbPedidos().get(i).getCantidad();
+           }
+       }
+       return cantidadPedida;
+   }
 
    public boolean existProducto(ProductoDTO p){
        boolean result=dao.existProducto(p);

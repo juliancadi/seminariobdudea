@@ -71,49 +71,73 @@ body {
 
 <div id="container">
     <form id="form1" name="form1" method="post" action="">
-    <%if(productoConsultado!=null){ %>
-<table width="500" border="0">
+<table width="835" border="1">
+    <%if(productoConsultado==null || productoConsultado.getTbPedidos().size()==0){ %>
+    <tr>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none"><div align="center">ESTE PRODUCTO NO TIENE PEDIDOS</div></td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+  </tr>
+    <%}else{ 
+    
+    for(int i=0;i<productoConsultado.getTbPedidos().size();i++){ 
+	PedidoDTO pedidoActual = productoConsultado.getTbPedidos().get(i);
+	%>
   <tr>
-    <td width="128"><div align="right" style="font-weight: bold;">Referencia:</div></td>
-    <td width="199"><%=productoConsultado.getReferencia() %></td>
+    <td width="69" bgcolor="#000000" ><div align="center" style="color: #FFFFFF; font-weight: bold;">Codigo</div></td>
+    <td width="244" bgcolor="#000000"><div align="center" style="color: #FFFFFF; font-weight: bold;">Fecha Pedido</div></td>
+    <td width="195" bgcolor="#000000"><div align="center" style="color: #FFFFFF; font-weight: bold;">Fecha Entrega</div></td>
+    <td width="151" bgcolor="#000000"><div align="center" style="color: #FFFFFF; font-weight: bold;">Cantidad</div></td>
+    <td width="142" bgcolor="#000000"><div align="center" style="color: #FFFFFF; font-weight: bold;">Estado</div></td>
   </tr>
   <tr>
-    <td><div align="right" style="font-weight: bold;">Descripcion:</div></td>
-    <td><%=productoConsultado.getDescripcion() %></td>
+    <td align="center"><%= pedidoActual.getCodigo() %></td>
+    <td align="center"><%= pedidoActual.getFechaPedido() %></td>
+    <td align="center"><%= pedidoActual.getFechaEntrega() %></td>
+    <td align="center"><%= pedidoActual.getCantidad() %></td>
+    <td align="center"><%= pedidoActual.getEstado() %></td>
+  </tr>
+  <%if(pedidoActual.getTbEntregas()==null || pedidoActual.getTbEntregas().size()==0){ %>
+    <tr>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none"><div align="center">ESTE PEDIDO NO TIENE ENTREGAS</div></td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+  </tr>
+    <%}else{ 
+     for(int j=0;j<pedidoActual.getTbEntregas().size();j++){ 
+  		EntregaDTO entregaActual = pedidoActual.getTbEntregas().get(j);
+  %>
+  <tr>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none"><div align="center">Entregas</div></td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
+    <td bgcolor="#999999" style="border:none">&nbsp;</td>
   </tr>
   <tr>
-    <td><div align="right" style="font-weight: bold;">Precio Unitario:</div></td>
-    <td><%=productoConsultado.getPrecioUnitario() %></td>
+    <td bgcolor="#CCCCCC"><div align="center"><strong>Codigo</strong></div></td>
+    <td bgcolor="#CCCCCC"><div align="center"><strong>Fecha</strong></div></td>
+    <td bgcolor="#CCCCCC"><div align="center"><strong>Cantidad</strong></div></td>
+    <td bgcolor="#CCCCCC" style="border:none">&nbsp;</td>
+    <td bgcolor="#CCCCCC" style="border:none">&nbsp;</td>
   </tr>
   <tr>
-    <td><div align="right" style="font-weight: bold;">Cantidad:</div></td>
-    <td> 
-    <%if(productoConsultado.getCantStock()<productoConsultado.getValorMin()){ %>
-       <span style="color: red;"> <%= productoConsultado.getCantStock() %> </span>
-     <%}
-    else{
-    %>
-     <%= productoConsultado.getCantStock() %> 
-     <%} %>
-     </td>
+    <td align="center"><%= entregaActual.getCodigo() %></td>
+    <td align="center"><%= entregaActual.getFecha() %></td>
+    <td align="center"><%= entregaActual.getCantidad() %></td>
+    <td style="border:none">&nbsp;</td>
+    <td style="border:none">&nbsp;</td>
   </tr>
-  <tr>
-    <td><div align="right" style="font-weight: bold;">Valor Minimo:</div></td>
-    <td><%=productoConsultado.getValorMin() %></td>
-  </tr>
-  <tr>
-    <td><div align="right" style="font-weight: bold;">Valor Optimo:</div></td>
-    <td><%=productoConsultado.getValorOptimo() %></td>
-  </tr>
-
+  			<%}//FOR entregas %>
+  		<%}//IF entregas %>
+  	<%}//FOR pedidos %>
+  <%}//IF pedidos %>
 </table>
-  <%if(productoConsultado.getCantStock()<productoConsultado.getValorMin()){ %>
-    <div align="center" style="color: red;">La cantidad en stock esta por debajo del minimo.
-    &nbsp;
-    <input type="button" value="Realizar Pedido" />
-    </div>
-  <%} %>
-        <%} %>
+
     </form>
 <!-- end #container --></div>
 <script type="text/javascript">
