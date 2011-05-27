@@ -121,4 +121,13 @@ alter table tb_factura add constraint tb_factura_pk primary key (codigo);
 /
 
 insert into tb_pedido (codigo,referencia) values ('PC-001',(select ref(p) from tb_producto p where identificador='bcd'));
+insert into tb_pedido (codigo,referencia) values ('PC-002',(select ref(p) from tb_producto p where identificador='abc'));
+insert into tb_pedido (codigo,referencia) values ('PC-003',(select ref(p) from tb_producto p where identificador='cde'));
 /
+update tb_pedido set estado='pendiente' where codigo='PC-001';
+update tb_pedido set estado='pendiente' where codigo='PC-002';
+update tb_pedido set estado='completo' where codigo='PC-003';
+/
+select * from tb_pedido;
+
+commit;

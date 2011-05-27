@@ -1,4 +1,4 @@
-function CargaPadre(url,id)
+function CargaServlet(url,id)
 {
 	//Creamos un objeto dependiendo del navegador
 	var objeto;
@@ -21,18 +21,16 @@ function CargaPadre(url,id)
 	}
 	//Cuando XMLHttpRequest cambie de estado, ejecutamos esta funcion
 	objeto.onreadystatechange=function(){
-		cargarobjetoPadre(objeto,id);
+		cargarobjeto(objeto,id);
 	};
 	objeto.open('POST', url, true); // indicamos con el método open la url a cargar de manera asíncrona
 	objeto.send(null); // Enviamos los datos con el metodo send
 }
 
-function cargarobjetoPadre(objeto, id){
-
+function cargarobjeto(objeto, id){
 	if (objeto.readyState == 4) //si se ha cargado completamente
 		parent.document.getElementById(id).innerHTML=objeto.responseText;
 	else //en caso contrario, mostramos un gif simulando una precarga
 		//document.getElementById(id).innerHTML='<img src="loader.gif" alt="cargando" />'
 		parent.document.getElementById(id).innerHTML='Cargando...';
-	
 }

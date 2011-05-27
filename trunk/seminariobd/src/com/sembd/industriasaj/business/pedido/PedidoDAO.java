@@ -49,14 +49,7 @@ public class PedidoDAO {
                 pro.setValorMin(rs.getInt(10));
                 pro.setValorOptimo(rs.getInt(11));
                 ped.setTbProducto(pro);
-                FacturaDTO fac = new FacturaDTO();
-                fac.setCodigo(rs.getString(12));
-                fac.setFecha(rs.getDate(13));
-                fac.setBase(rs.getInt(14));
-                fac.setIva(rs.getInt(15));
-                fac.setTotal(rs.getInt(16));
-                fac.setTbPedido(null);
-                ped.setTbFactura(fac);
+                
                 EntregaManager em = EntregaManager.getEntregaManager();
                 ped.setTbEntregas(em.getEntregasPorPedido(pd));
                 result = ped;
@@ -72,6 +65,32 @@ public class PedidoDAO {
             catch(Exception clo){}
         }
         return result;
+    }
+    
+    public boolean borrarPedido(PedidoDTO pd){
+     
+        Connection con = null;
+        boolean result = false;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(PedidoDAOHelper.borrarPedido());
+
+            p.setString(1, pd.getCodigo());
+            p.execute();
+            result = true;
+            
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
+        
     }
 
     public List<PedidoDTO> getPedidos(){
@@ -123,6 +142,47 @@ public class PedidoDAO {
             return result;
 	}
     
+    public List<PedidoDTO> getPedidosAEliminar(){
+        List<PedidoDTO> result = null;
+        Connection con = null;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(PedidoDAOHelper.getPedidosAEliminar());
+            ResultSet rs = p.executeQuery();
+            result = new ArrayList<PedidoDTO>();
+            while(rs.next()){
+            	PedidoDTO ped = new PedidoDTO();
+            	ped.setCodigo(rs.getString(1));
+            	ped.setFechaPedido(rs.getDate(2));
+            	ped.setFechaEntrega(rs.getDate(3));
+            	ped.setCantidad(rs.getInt(4));
+                ProductoDTO pro = new ProductoDTO();
+                pro.setReferencia(rs.getString(5));
+                pro.setIdentificador(rs.getString(6));
+                pro.setTbTipo(null);
+                pro.setDescripcion(rs.getString(7));
+                pro.setCantStock(rs.getInt(8));
+                pro.setPrecioUnitario(rs.getInt(9));
+                pro.setValorMin(rs.getInt(10));
+                pro.setValorOptimo(rs.getInt(11));
+                ped.setTbProducto(pro);
+                EntregaManager em = EntregaManager.getEntregaManager();
+                ped.setTbEntregas(em.getEntregasPorPedido(ped));
+                result.add(ped);
+            }
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
+}
+    
     public List<PedidoDTO> getPedidosPorProducto(ProductoDTO pr){
         List<PedidoDTO> result = null;
         Connection con = null;
@@ -149,14 +209,14 @@ public class PedidoDAO {
                 pro.setValorMin(rs.getInt(10));
                 pro.setValorOptimo(rs.getInt(11));
                 ped.setTbProducto(pro);
-                FacturaDTO fac = new FacturaDTO();
+                /*FacturaDTO fac = new FacturaDTO();
                 fac.setCodigo(rs.getString(12));
                 fac.setFecha(rs.getDate(13));
                 fac.setBase(rs.getInt(14));
                 fac.setIva(rs.getInt(15));
                 fac.setTotal(rs.getInt(16));
-                fac.setTbPedido(null);
-                ped.setTbFactura(fac);
+                fac.setTbPedido(null);*/
+                ped.setTbFactura(null);
                 EntregaManager em = EntregaManager.getEntregaManager();
                 ped.setTbEntregas(em.getEntregasPorPedido(ped));
                 result.add(ped);
