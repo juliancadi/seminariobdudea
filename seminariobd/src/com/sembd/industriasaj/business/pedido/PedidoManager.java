@@ -1,4 +1,4 @@
-package com.sembd.industriasaj.business.pedido;
+ package com.sembd.industriasaj.business.pedido;
 
 import java.util.List;
 
@@ -30,10 +30,20 @@ public class PedidoManager {
        return pedidos;
 	}
    
+   public List<PedidoDTO> getPedidosAEliminar(){
+       List<PedidoDTO> pedidos = null;
+       pedidos = dao.getPedidosAEliminar();
+       return pedidos;
+	}
+   
    public List<PedidoDTO> getPedidosPorProducto(ProductoDTO p){
        List<PedidoDTO> pedidos = null;
        pedidos = dao.getPedidosPorProducto(p);
        return pedidos;
+	}
+   
+   public boolean borrarPedido(PedidoDTO p){
+        return dao.borrarPedido(p);
 	}
 
    public boolean existPedido(PedidoDTO p){

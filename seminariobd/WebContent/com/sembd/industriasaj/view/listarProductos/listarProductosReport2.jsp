@@ -18,6 +18,7 @@ if(referencia!=null){
 		producto.setReferencia(referencia);
 		productosConsultados = new ArrayList<ProductoDTO>();
 		productosConsultados.add(pm.getProducto(producto));
+		session.setAttribute("productosConsultados","HOLA MUNDO");
 	}
 }
 
@@ -69,7 +70,7 @@ body {
 <div id="container">
   <div id="mainContent">
     <h1 align="center">Listar Productos con Cantidad Insuficiente</h1>
-    <form id="form1" name="form1" method="post" action="">
+    <form id="f1" name="f1" method="post" action="">
 <% if(productosConsultados!=null){%>
 
 <table width="835" border="1">
@@ -98,7 +99,7 @@ body {
     <td><div align="center" style="color: blue;"><%=productoTabla.getValorMin()%></div></td>
     <td><div align="center"><%=productoTabla.getValorOptimo()%></div></td>
     <td><div align="center" style="color: green;">CALCULO</div></td>
-    <td><div align="center"><input type="text" value="CALCULO" id="cell_<%=productoTabla.getReferencia() %>" name="cell_<%=productoTabla.getReferencia() %>"></input></div></td>
+    <td><div align="center"><input type="text" value="CALCULO" id="cell_<%=productoTabla.getReferencia() %>" name="cell_<%=productoTabla.getReferencia() %>" ></input></div></td>
   </tr>
   <%} %>
   
@@ -112,11 +113,11 @@ body {
     <td style="border: none;">&nbsp;</td>
     <td style="border: none;">&nbsp;</td>
     <td style="border: none;">&nbsp;</td>
-    <td style="border: none;"><div align="center"><input type="button" value="Realizar Pedido"  onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp','mainContent');"/></div></td>
+    <td style="border: none;"><div align="center"><input type="button" value="Realizar Pedido" onclick="javascript:CargaServlet('IngresarPedidosCTRL','mainContent'); CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp','mainContent');" /></div></td>
   </tr>
   
 </table>
-
+<input type="text" value="CALCULO" id="txt1" name="txt1" ></input>
 <%
 }
 %>

@@ -3,9 +3,25 @@
 <%@page import="com.sembd.industriasaj.business.pedido.PedidoDTO"%>
 <%@page import="com.sembd.industriasaj.business.pedido.PedidoManager"%>
 <%@page import="java.util.List"%>
+
+
 <%
+
+String codigo = (String)request.getParameter("codPed");
+
 PedidoManager pm = PedidoManager.getPedidoManager();
-List<PedidoDTO> pedidos = pm.getPedidos();
+PedidoDTO pedido = new PedidoDTO();
+boolean borrado = false;
+
+if(codigo!=null){
+	pedido.setCodigo(codigo);
+	borrado = pm.borrarPedido(pedido);
+	System.out.println(borrado);
+}
+
+
+
+List<PedidoDTO> pedidos = pm.getPedidosAEliminar();
 
 %>
 
@@ -37,7 +53,7 @@ body {
 -->
 </style>
 <script src="css/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
-<script src="javascript/refrescarContenido.js" type="text/javascript"></script>
+<script src="../javascript/cargarContenido.js" type="text/javascript"></script>
 <link href="css/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -48,9 +64,11 @@ body {
     <h1 align="center">Eliminar Pedido</h1>
     <form id="form1" name="form1" method="post" action="">
         <span id="spryselect1"><strong>
+
         <label>Pedido:</label>
         </strong></span><span id="spryselect1"><label>
-        <select name="lista_productos" id="lista_productos" onchange="javascript:refresh('informacion', this.value);">
+        <select name="lista_pedidos" id="lista_pedidos" onchange="javascript:Carga('com/sembd/industriasaj/view/eliminarPedido/eliminarPedidoReport.jsp?cod='+this.value,'informacion');">
+         <option value="0"> - </option>
           <% 
           if(pedidos.size()!=0){
           for(int i=0;i<pedidos.size();i++){
@@ -64,7 +82,15 @@ body {
         <span class="selectRequiredMsg">Por favor seleccione un pedido.</span></span>
     </form>
     <p>&nbsp;</p>
-    <div id="informacion"></div>
+    <div id="informacion">
+            <%if(borrado){ %>
+        	<span style="color: green;">El pedido ha sido eliminado exitosamente.</span>
+        <%}else{ 
+        	if(codigo!=null){%>
+        	<span style="color: red;">No se pudo eliminar el pedido.</span>
+        <%	}
+        } %>
+    </div>
     <p>&nbsp;</p>
   <!-- end #mainContent --></div>
 <!-- end #container --></div>
