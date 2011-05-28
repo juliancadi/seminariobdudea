@@ -24,6 +24,11 @@ public class PedidoManager {
        return pedido;
    }
 
+   
+   public boolean insertPedido(PedidoDTO p){
+       return dao.insertPedido(p);
+   }
+   
    public List<PedidoDTO> getPedidos(){
        List<PedidoDTO> pedidos = null;
        pedidos = dao.getPedidos();

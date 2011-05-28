@@ -23,7 +23,9 @@ function CargaServlet(url,id)
 	objeto.onreadystatechange=function(){
 		cargarobjeto(objeto,id);
 	};
-	objeto.open('POST', url, true); // indicamos con el método open la url a cargar de manera asíncrona
+	
+
+	objeto.open('GET', url, false); // indicamos con el método open la url a cargar de manera asíncrona
 	objeto.send(null); // Enviamos los datos con el metodo send
 }
 

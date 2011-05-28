@@ -16,12 +16,10 @@ boolean borrado = false;
 if(codigo!=null){
 	pedido.setCodigo(codigo);
 	borrado = pm.borrarPedido(pedido);
-	System.out.println(borrado);
 }
 
-
-
 List<PedidoDTO> pedidos = pm.getPedidosAEliminar();
+
 
 %>
 
@@ -53,7 +51,6 @@ body {
 -->
 </style>
 <script src="css/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
-<script src="../javascript/cargarContenido.js" type="text/javascript"></script>
 <link href="css/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
 </head>
 

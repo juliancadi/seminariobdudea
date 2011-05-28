@@ -38,7 +38,6 @@ body {
 -->
 </style>
 <script src="css/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
-<script src="../javascript/cargarContenido.js" type="text/javascript"></script>
 <link href="css/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">

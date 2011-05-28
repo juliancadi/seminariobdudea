@@ -23,7 +23,7 @@ function CargaPadre(url,id)
 	objeto.onreadystatechange=function(){
 		cargarobjetoPadre(objeto,id);
 	};
-	objeto.open('POST', url, true); // indicamos con el método open la url a cargar de manera asíncrona
+	objeto.open('GET', url, true); // indicamos con el método open la url a cargar de manera asíncrona
 	objeto.send(null); // Enviamos los datos con el metodo send
 }
 

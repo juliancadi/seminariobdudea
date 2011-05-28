@@ -48,7 +48,7 @@ body {
 </style>
 <script src="javascript/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
 <link href="javascript/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
-<script src="../javascript/cargarPadre.js" type="text/javascript"></script>
+
 
 <style type="text/css">
 <!--
@@ -78,14 +78,22 @@ body {
     <td><%=productoConsultado.getPrecioUnitario() %></td>
   </tr>
   <tr>
-    <td><div align="right" style="font-weight: bold;">Cantidad:</div></td>
+    <td><div align="right" style="font-weight: bold;">Cantidad en Stock:</div></td>
+    <td><%=productoConsultado.getCantStock() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Cantidad en transito:</div></td>
+    <td><%=pm.getCantidadPedida(productoConsultado) %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Cantidad Total:</div></td>
     <td> 
-    <%if(productoConsultado.getCantStock()<productoConsultado.getValorMin()){ %>
-       <span style="color: red;"> <%= productoConsultado.getCantStock() %> </span>
+    <%if((productoConsultado.getCantStock()+pm.getCantidadPedida(productoConsultado))<productoConsultado.getValorMin()){ %>
+       <span style="color: red;"> <%= (productoConsultado.getCantStock()+pm.getCantidadPedida(productoConsultado)) %> </span>
      <%}
     else{
     %>
-     <%= productoConsultado.getCantStock() %> 
+     <%= (productoConsultado.getCantStock()+pm.getCantidadPedida(productoConsultado)) %> 
      <%} %>
      </td>
   </tr>
@@ -99,7 +107,7 @@ body {
   </tr>
 
 </table>
-  <%if(productoConsultado.getCantStock()<productoConsultado.getValorMin()){ %>
+  <%if((productoConsultado.getCantStock()+pm.getCantidadPedida(productoConsultado))<productoConsultado.getValorMin()){ %>
     <div align="center" style="color: red;">La cantidad en stock esta por debajo del minimo.
     &nbsp;
     <input type="button" value="Realizar Pedido Individual" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductosReport2.jsp?ref=<%=referencia%>','mainContent');"/>
