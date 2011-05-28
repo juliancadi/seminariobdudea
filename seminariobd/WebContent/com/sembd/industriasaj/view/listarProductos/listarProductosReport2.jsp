@@ -5,6 +5,8 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%
+String parametros = "";
+String nombrePar = "";
 String referencia = (String)request.getParameter("ref");
 ProductoManager pm = ProductoManager.getProductoManager();
 List<ProductoDTO> productosConsultados = null;
@@ -12,13 +14,14 @@ List<ProductoDTO> productosConsultados = null;
 if(referencia!=null){
 	if(referencia.equals("0")){
 		productosConsultados = pm.getProductosDebajoDelMin();
+		parametros = "producto=0";
 	}
 	else{
 		ProductoDTO producto = new ProductoDTO();
 		producto.setReferencia(referencia);
+		parametros = "producto="+ referencia;
 		productosConsultados = new ArrayList<ProductoDTO>();
 		productosConsultados.add(pm.getProducto(producto));
-		session.setAttribute("productosConsultados","HOLA MUNDO");
 	}
 }
 
@@ -53,7 +56,6 @@ body {
 -->
 </style>
 <script src="css/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
-<script src="../javascript/cargarContenido.js" type="text/javascript"></script>
 <link href="css/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
@@ -70,8 +72,10 @@ body {
 <div id="container">
   <div id="mainContent">
     <h1 align="center">Listar Productos con Cantidad Insuficiente</h1>
-    <form id="f1" name="f1" method="post" action="">
-<% if(productosConsultados!=null){%>
+    <form id="f1" name="f1" method="post" action="" onsubmit="return false">
+<% 
+
+if(productosConsultados!=null && productosConsultados.size()>0){%>
 
 <table width="835" border="1">
   <tr>
@@ -88,6 +92,11 @@ body {
   </tr>
   <%for(int i=0; i<productosConsultados.size();i++){
 	  ProductoDTO productoTabla = productosConsultados.get(i);
+	  int cantidadPedido = productoTabla.getValorOptimo()- productoTabla.getCantStock();
+	  int modulo = cantidadPedido % productoTabla.getTbTipo().getMultiplo();
+	  if (modulo != 0){
+		  cantidadPedido = cantidadPedido - modulo + productoTabla.getTbTipo().getMultiplo();
+	   }
   %>
   <tr>
     <td><div align="center"><%=productoTabla.getReferencia() %></div></td>
@@ -98,8 +107,13 @@ body {
     <td><div align="center" style="color: red;"><%=(productoTabla.getCantStock() + pm.getCantidadPedida(productoTabla))%></div></td>
     <td><div align="center" style="color: blue;"><%=productoTabla.getValorMin()%></div></td>
     <td><div align="center"><%=productoTabla.getValorOptimo()%></div></td>
-    <td><div align="center" style="color: green;">CALCULO</div></td>
-    <td><div align="center"><input type="text" value="CALCULO" id="cell_<%=productoTabla.getReferencia() %>" name="cell_<%=productoTabla.getReferencia() %>" ></input></div></td>
+    <td><div align="center" style="color: green;"><%=cantidadPedido%></div></td>
+    <%
+    nombrePar = productoTabla.getIdentificador()+productoTabla.getTbTipo().getCodigo();
+    parametros= parametros + "&" + nombrePar + "='+f1."+nombrePar+".value+'" ;
+    %>
+    <td><div align="center"><input type="text" value=<%=cantidadPedido%> id="<%= nombrePar%>" name="<%= nombrePar%>" ></input></div></td>
+    
   </tr>
   <%} %>
   
@@ -112,16 +126,26 @@ body {
     <td style="border: none;">&nbsp;</td>
     <td style="border: none;">&nbsp;</td>
     <td style="border: none;">&nbsp;</td>
-    <td style="border: none;">&nbsp;</td>
-    <td style="border: none;"><div align="center"><input type="button" value="Realizar Pedido" onclick="javascript:CargaServlet('IngresarPedidosCTRL','mainContent'); CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp','mainContent');" /></div></td>
+    <td style="border: none;"><div align="center"><input type="button" value="Cancelar" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp','mainContent');" /></div></td>
+    <td style="border: none;"><div align="center"><input type="button" value="Realizar Pedido" onclick="javascript:CargaServlet('IngresarPedidosCTRL?<%=parametros%>','mainContent'); CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp','mainContent');" /></div></td>
   </tr>
   
 </table>
-<input type="text" value="CALCULO" id="txt1" name="txt1" ></input>
+
 <%
 }
+else{
+
 %>
-        
+
+<div align="center">No hay ningun producto que requiera pedido.
+<p>&nbsp;</p>
+<input type="button" value="Atras" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp','mainContent');" /></div>
+      <%
+}
+
+
+%>  
     </form>
     <p>&nbsp;</p>
     <div id="informacion"> </div>

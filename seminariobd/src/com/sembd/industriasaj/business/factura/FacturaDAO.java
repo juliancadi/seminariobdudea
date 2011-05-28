@@ -5,6 +5,7 @@ import java.util.List;
 import com.sembd.industriasaj.business.pedido.PedidoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -34,14 +35,14 @@ public class FacturaDAO {
             while(rs.next()){
                 FacturaDTO fac = new FacturaDTO();
                 fac.setCodigo(rs.getString(1));
-                fac.setFecha(rs.getDate(2));
+                fac.setFecha(new Date(rs.getDate(2).getTime()));
                 fac.setBase(rs.getInt(3));
                 fac.setIva(rs.getInt(4));
                 fac.setTotal(rs.getInt(5));
                 PedidoDTO ped = new PedidoDTO();
                 ped.setCodigo(rs.getString(6));
-                ped.setFechaPedido(rs.getDate(7));
-                ped.setFechaEntrega(rs.getDate(8));
+                ped.setFechaPedido(new Date(rs.getDate(7).getTime()));
+                ped.setFechaEntrega(new Date(rs.getDate(8).getTime()));
                 ped.setCantidad(rs.getInt(9));
                 ped.setTbProducto(null);
                 ped.setTbEntregas(null);
@@ -74,14 +75,14 @@ public class FacturaDAO {
                 while(rs.next()){
                 	FacturaDTO fac = new FacturaDTO();
                     fac.setCodigo(rs.getString(1));
-                    fac.setFecha(rs.getDate(2));
+                    fac.setFecha(new Date(rs.getDate(2).getTime()));
                     fac.setBase(rs.getInt(3));
                     fac.setIva(rs.getInt(4));
                     fac.setTotal(rs.getInt(5));
                     PedidoDTO ped = new PedidoDTO();
                     ped.setCodigo(rs.getString(6));
-                    ped.setFechaPedido(rs.getDate(7));
-                    ped.setFechaEntrega(rs.getDate(8));
+                    ped.setFechaPedido(new Date(rs.getDate(7).getTime()));
+                    ped.setFechaEntrega(new Date(rs.getDate(8).getTime()));
                     ped.setCantidad(rs.getInt(9));
                     ped.setTbProducto(null);
                     ped.setTbEntregas(null);

@@ -1,7 +1,7 @@
 package com.sembd.industriasaj.business.pedido;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import com.sembd.industriasaj.business.entrega.EntregaDTO;

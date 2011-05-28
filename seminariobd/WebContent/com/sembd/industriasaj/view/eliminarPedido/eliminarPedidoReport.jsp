@@ -45,7 +45,6 @@ body {
 </style>
 <script src="javascript/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
 <link href="javascript/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
-<script src="../javascript/cargarPadre.js" type="text/javascript"></script>
 
 <style type="text/css">
 <!--

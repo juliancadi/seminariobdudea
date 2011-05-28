@@ -1,5 +1,6 @@
 package com.sembd.industriasaj.business.pedido;
 
+import java.util.Calendar;
 import java.util.List;
 
 import com.sembd.industriasaj.business.entrega.EntregaManager;
@@ -7,6 +8,7 @@ import com.sembd.industriasaj.business.factura.FacturaDTO;
 import com.sembd.industriasaj.business.producto.ProductoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -36,8 +38,8 @@ public class PedidoDAO {
             while(rs.next()){
             	PedidoDTO ped = new PedidoDTO();
             	ped.setCodigo(rs.getString(1));
-            	ped.setFechaPedido(rs.getDate(2));
-            	ped.setFechaEntrega(rs.getDate(3));
+            	ped.setFechaPedido(new Date(rs.getDate(2).getTime()));
+            	ped.setFechaEntrega(new Date(rs.getDate(3).getTime()));
             	ped.setCantidad(rs.getInt(4));
                 ProductoDTO pro = new ProductoDTO();
                 pro.setReferencia(rs.getString(5));
@@ -49,7 +51,7 @@ public class PedidoDAO {
                 pro.setValorMin(rs.getInt(10));
                 pro.setValorOptimo(rs.getInt(11));
                 ped.setTbProducto(pro);
-                
+                ped.setEstado(rs.getString(12));
                 EntregaManager em = EntregaManager.getEntregaManager();
                 ped.setTbEntregas(em.getEntregasPorPedido(pd));
                 result = ped;
@@ -66,6 +68,35 @@ public class PedidoDAO {
         }
         return result;
     }
+    
+    public boolean insertPedido(PedidoDTO pd){
+        boolean result = false;
+        Connection con = null;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(PedidoDAOHelper.insertPedido());
+                        p.setString(1, pd.getCodigo());
+            p.setDate(2, pd.getFechaPedido());
+            p.setDate(3,pd.getFechaEntrega());
+            p.setInt(4, pd.getCantidad());
+            p.setString(5, pd.getTbProducto().getReferencia());
+            p.setString(6, pd.getEstado());
+            
+            p.execute();
+            result = true;
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
+    }
+    
     
     public boolean borrarPedido(PedidoDTO pd){
      
@@ -104,8 +135,8 @@ public class PedidoDAO {
                 while(rs.next()){
                 	PedidoDTO ped = new PedidoDTO();
                 	ped.setCodigo(rs.getString(1));
-                	ped.setFechaPedido(rs.getDate(2));
-                	ped.setFechaEntrega(rs.getDate(3));
+                	ped.setFechaPedido(new Date(rs.getDate(2).getTime()));
+                	ped.setFechaEntrega(new Date(rs.getDate(3).getTime()));
                 	ped.setCantidad(rs.getInt(4));
                     ProductoDTO pro = new ProductoDTO();
                     pro.setReferencia(rs.getString(5));
@@ -125,6 +156,7 @@ public class PedidoDAO {
                     fac.setTotal(rs.getInt(16));
                     fac.setTbPedido(null);
                     ped.setTbFactura(fac);
+                    ped.setEstado(rs.getString(12));
                     EntregaManager em = EntregaManager.getEntregaManager();
                     ped.setTbEntregas(em.getEntregasPorPedido(ped));
                     result.add(ped);
@@ -153,8 +185,8 @@ public class PedidoDAO {
             while(rs.next()){
             	PedidoDTO ped = new PedidoDTO();
             	ped.setCodigo(rs.getString(1));
-            	ped.setFechaPedido(rs.getDate(2));
-            	ped.setFechaEntrega(rs.getDate(3));
+            	ped.setFechaPedido(new Date(rs.getDate(2).getTime()));
+            	ped.setFechaEntrega(new Date(rs.getDate(3).getTime()));
             	ped.setCantidad(rs.getInt(4));
                 ProductoDTO pro = new ProductoDTO();
                 pro.setReferencia(rs.getString(5));
@@ -166,6 +198,7 @@ public class PedidoDAO {
                 pro.setValorMin(rs.getInt(10));
                 pro.setValorOptimo(rs.getInt(11));
                 ped.setTbProducto(pro);
+                ped.setEstado(rs.getString(12));
                 EntregaManager em = EntregaManager.getEntregaManager();
                 ped.setTbEntregas(em.getEntregasPorPedido(ped));
                 result.add(ped);
@@ -196,8 +229,8 @@ public class PedidoDAO {
             while(rs.next()){
             	PedidoDTO ped = new PedidoDTO();
             	ped.setCodigo(rs.getString(1));
-            	ped.setFechaPedido(rs.getDate(2));
-            	ped.setFechaEntrega(rs.getDate(3));
+            	ped.setFechaPedido(new Date(rs.getDate(2).getTime()));
+            	ped.setFechaEntrega(new Date(rs.getDate(3).getTime()));
             	ped.setCantidad(rs.getInt(4));
                 ProductoDTO pro = new ProductoDTO();
                 pro.setReferencia(rs.getString(5));
@@ -217,6 +250,7 @@ public class PedidoDAO {
                 fac.setTotal(rs.getInt(16));
                 fac.setTbPedido(null);*/
                 ped.setTbFactura(null);
+                ped.setEstado(rs.getString(12));
                 EntregaManager em = EntregaManager.getEntregaManager();
                 ped.setTbEntregas(em.getEntregasPorPedido(ped));
                 result.add(ped);
