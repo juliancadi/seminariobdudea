@@ -2,6 +2,7 @@ package com.sembd.industriasaj.business.entrega;
 
 import java.util.List;
 
+import com.sembd.industriasaj.business.pedido.PedidoDAOHelper;
 import com.sembd.industriasaj.business.pedido.PedidoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;
 import java.sql.Connection;
@@ -21,6 +22,32 @@ public class EntregaDAO {
             dao = new EntregaDAO();
         }
         return dao;
+    }
+    
+    public boolean insertEntrega(EntregaDTO e){
+        boolean result = false;
+        Connection con = null;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(EntregaDAOHelper.insertEntrega());
+            p.setString(1, e.getCodigo());
+            p.setString(2, e.getTbPedido().getCodigo());
+            p.setDate(3,e.getFecha());
+            p.setInt(4, e.getCantidad());
+            
+            p.execute();
+            result = true;
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
     }
 
     public EntregaDTO getEntrega(EntregaDTO en){

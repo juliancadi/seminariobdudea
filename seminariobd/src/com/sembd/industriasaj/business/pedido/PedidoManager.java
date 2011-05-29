@@ -41,6 +41,12 @@ public class PedidoManager {
        return pedidos;
 	}
    
+   public List<PedidoDTO> getPedidosAModificar(){
+       List<PedidoDTO> pedidos = null;
+       pedidos = dao.getPedidosAModificar();
+       return pedidos;
+	}
+   
    public List<PedidoDTO> getPedidosPorProducto(ProductoDTO p){
        List<PedidoDTO> pedidos = null;
        pedidos = dao.getPedidosPorProducto(p);
@@ -55,5 +61,9 @@ public class PedidoManager {
        boolean result=dao.existPedido(p);
        return result;
    }
+   
+   public boolean updatePedido(PedidoDTO p){
+       return dao.updatePedido(p);
+	}
 
 }
