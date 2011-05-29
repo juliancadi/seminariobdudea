@@ -68,7 +68,7 @@ body {
           for(int i=0;i<facturas.size();i++){
           		FacturaDTO f = facturas.get(i);
           	%>
-          <option value="<%=f.getCodigo()%>"><%=f.getCodigo()%></option>
+          <option value="<%=f.getCodigo()%>"><%=f.getCodigo()+" Pedido: "+f.getTbPedido().getCodigo()%></option>
           <% }
              }%>
         </select>

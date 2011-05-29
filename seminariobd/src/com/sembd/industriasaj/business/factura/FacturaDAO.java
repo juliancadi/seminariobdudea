@@ -1,9 +1,6 @@
 package com.sembd.industriasaj.business.factura;
 
 import java.util.List;
-
-import com.sembd.industriasaj.business.entrega.EntregaDAOHelper;
-import com.sembd.industriasaj.business.entrega.EntregaDTO;
 import com.sembd.industriasaj.business.pedido.PedidoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;
 import java.sql.Connection;

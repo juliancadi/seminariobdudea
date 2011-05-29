@@ -75,7 +75,7 @@ body {
   </tr>
   <tr>
     <td><div align="right" style="font-weight: bold;">Cantidad:</div></td>
-    <td><input type="text" value=<%=pedidoConsultado.getCantidad()%> id="cantidadNueva" name="cantidadNueva" ></input></td>
+    <td><input type="text" value=<%=pedidoConsultado.getCantidad()%> id="cantidadNueva" name="cantidadNueva" maxlength="6"></input></td>
   </tr>
   <tr>
     <td><div align="right" style="font-weight: bold;">Producto:</div></td>

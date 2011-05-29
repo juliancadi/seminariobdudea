@@ -7,7 +7,7 @@ function CargaPadre(url,id)
 		objeto = new XMLHttpRequest();
 	}
 	else if (window.ActiveXObject){
-		//Nuestro querido IE
+		//Internet Explorer
 		try {
 			objeto = new ActiveXObject("Msxml2.XMLHTTP");
 		} catch (e) {
@@ -19,20 +19,17 @@ function CargaPadre(url,id)
 	if (!objeto){
 		alert("No ha sido posible crear un objeto de XMLHttpRequest");
 	}
-	//Cuando XMLHttpRequest cambie de estado, ejecutamos esta funcion
+	//Cuando XMLHttpRequest cambie de estado, se ejecuta esta funcion
 	objeto.onreadystatechange=function(){
-		cargarobjetoPadre(objeto,id);
+		cargarobjeto(objeto,id);
 	};
-	objeto.open('GET', url, true); // indicamos con el método open la url a cargar de manera asíncrona
-	objeto.send(null); // Enviamos los datos con el metodo send
+	objeto.open('GET', url, true); // se indica con el método open la url a cargar de manera síncrona
+	objeto.send(null); // se envia los datos con el metodo send
 }
 
-function cargarobjetoPadre(objeto, id){
-
+function cargarobjeto(objeto, id){
 	if (objeto.readyState == 4) //si se ha cargado completamente
 		parent.document.getElementById(id).innerHTML=objeto.responseText;
-	else //en caso contrario, mostramos un gif simulando una precarga
-		//document.getElementById(id).innerHTML='<img src="loader.gif" alt="cargando" />'
+	else //en caso contrario, se muestra el mensaje siguiente
 		parent.document.getElementById(id).innerHTML='Cargando...';
-	
 }

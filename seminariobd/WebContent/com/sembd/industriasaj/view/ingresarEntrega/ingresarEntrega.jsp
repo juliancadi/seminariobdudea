@@ -27,34 +27,41 @@ boolean insertado = false;
 String msgError = "No se pudo ingresar la entrega porque hay un problema con la base de datos.";
 
 if(codigo!=null && cantidadNueva!=null){
-	pedido.setCodigo(codigo);
-	pedido = pm.getPedido(pedido);
-	int cantInt = Integer.parseInt(cantidadNueva);
-	int faltInt = Integer.parseInt(faltante);
 	
-	entregaNueva.setCodigo("0");
-	Calendar calendar = Calendar.getInstance();
-	entregaNueva.setFecha(new Date(calendar.getTime().getTime()));
-	entregaNueva.setCantidad(cantInt);
-	entregaNueva.setTbPedido(pedido);
 	
-	if(cantInt==faltInt){
-		pedido.setCantidad(pm.getPedido(pedido).getCantidad());
-		pedido.setEstado("Completo");
-		producto.setReferencia(pedido.getTbProducto().getReferencia());
-		producto.setCantStock(pedido.getTbProducto().getCantStock()+cantInt);
-		insertado = em.insertEntrega(entregaNueva) && pm.updatePedido(pedido) && prm.updateProducto(producto);
-	}else{
-		if(cantInt<faltInt){
+	try{
+		int cantInt = Integer.parseInt(cantidadNueva);
+		int faltInt = Integer.parseInt(faltante);
+		pedido.setCodigo(codigo);
+		pedido = pm.getPedido(pedido);
+		entregaNueva.setCodigo("0");
+		Calendar calendar = Calendar.getInstance();
+		entregaNueva.setFecha(new Date(calendar.getTime().getTime()));
+		entregaNueva.setCantidad(cantInt);
+		entregaNueva.setTbPedido(pedido);
+		
+		if(cantInt==faltInt){
 			pedido.setCantidad(pm.getPedido(pedido).getCantidad());
-			pedido.setEstado("Incompleto");
+			pedido.setEstado("Completo");
 			producto.setReferencia(pedido.getTbProducto().getReferencia());
 			producto.setCantStock(pedido.getTbProducto().getCantStock()+cantInt);
-			insertado = em.insertEntrega(entregaNueva) && pm.updatePedido(pedido)&& prm.updateProducto(producto);
+			insertado = em.insertEntrega(entregaNueva) && pm.updatePedido(pedido) && prm.updateProducto(producto);
 		}else{
-			insertado = false;
-			msgError = "La cantidad de la entrega supera la del pedido.";
+			if(cantInt<faltInt){
+				pedido.setCantidad(pm.getPedido(pedido).getCantidad());
+				pedido.setEstado("Incompleto");
+				producto.setReferencia(pedido.getTbProducto().getReferencia());
+				producto.setCantStock(pedido.getTbProducto().getCantStock()+cantInt);
+				insertado = em.insertEntrega(entregaNueva) && pm.updatePedido(pedido)&& prm.updateProducto(producto);
+			}else{
+				insertado = false;
+				msgError = "La cantidad de la entrega supera la del pedido.";
+			}
 		}
+	}
+	catch(NumberFormatException err){
+		insertado = false;
+		msgError = "La cantidad no puede quedar en blanco o contener caracteres alfabeticos.";
 	}
 }
 
@@ -111,7 +118,7 @@ body {
           for(int i=0;i<pedidos.size();i++){
           		PedidoDTO p = pedidos.get(i);
           	%>
-          <option value="<%=p.getCodigo()%>"><%=p.getCodigo()%></option>
+          <option value="<%=p.getCodigo()%>"><%=p.getCodigo()+" Producto: "+p.getTbProducto().getReferencia()%></option>
           <% }
              }%>
         </select>

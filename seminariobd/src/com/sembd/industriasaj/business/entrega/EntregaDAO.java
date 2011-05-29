@@ -1,8 +1,6 @@
 package com.sembd.industriasaj.business.entrega;
 
 import java.util.List;
-
-import com.sembd.industriasaj.business.pedido.PedidoDAOHelper;
 import com.sembd.industriasaj.business.pedido.PedidoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;
 import java.sql.Connection;

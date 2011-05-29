@@ -71,7 +71,7 @@ body {
           for(int i=0;i<pedidos.size();i++){
           		PedidoDTO p = pedidos.get(i);
           	%>
-          <option value="<%=p.getCodigo()%>"><%=p.getCodigo()%></option>
+          <option value="<%=p.getCodigo()%>"><%=p.getCodigo()+" Producto: "+p.getTbProducto().getReferencia()%></option>
           <% }
              }%>
         </select>
