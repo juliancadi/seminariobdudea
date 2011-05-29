@@ -1,6 +1,7 @@
 package com.sembd.industriasaj.business.pedido;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Type;
 
 import javax.servlet.ServletException;
@@ -38,6 +39,9 @@ public class IngresarPedidosCTRL extends HttpServlet {
 		
 		
 		String referencia = request.getParameter("producto");
+		
+		
+		
 		if(referencia!=null){
 			ProductoManager pm = ProductoManager.getProductoManager();
 			List<ProductoDTO> productosConsultados = null;
@@ -50,6 +54,20 @@ public class IngresarPedidosCTRL extends HttpServlet {
 				producto.setReferencia(referencia);
 				productosConsultados = new ArrayList<ProductoDTO>();
 				productosConsultados.add(pm.getProducto(producto));
+			}
+			
+			try{
+				for(int i = 0; i< productosConsultados.size();i++){
+					int nuevaCantidad = Integer.parseInt(request.getParameter(productosConsultados.get(i).getIdentificador()+productosConsultados.get(i).getTbTipo().getCodigo()));
+				}
+			}
+			catch(NumberFormatException err){
+				String someMessage = "Error !";
+				PrintWriter out = response.getWriter();
+				out.print("<html><head>");
+				out.print("<script type=\"text/javascript\">window.open('" + someMessage + "');</script>");
+				out.print("</head><body></body></html>");
+				return;
 			}
 			
 			for(int i = 0; i< productosConsultados.size();i++){

@@ -92,11 +92,11 @@ if(productosConsultados!=null && productosConsultados.size()>0){%>
   </tr>
   <%for(int i=0; i<productosConsultados.size();i++){
 	  ProductoDTO productoTabla = productosConsultados.get(i);
-	  int cantidadPedido = productoTabla.getValorOptimo()- productoTabla.getCantStock();
+	  int cantidadPedido = productoTabla.getValorOptimo()- (productoTabla.getCantStock()+pm.getCantidadPedida(productoTabla));
 	  int modulo = cantidadPedido % productoTabla.getTbTipo().getMultiplo();
 	  if (modulo != 0){
 		  cantidadPedido = cantidadPedido - modulo + productoTabla.getTbTipo().getMultiplo();
-	   }
+	  }
   %>
   <tr>
     <td><div align="center"><%=productoTabla.getReferencia() %></div></td>
@@ -112,7 +112,7 @@ if(productosConsultados!=null && productosConsultados.size()>0){%>
     nombrePar = productoTabla.getIdentificador()+productoTabla.getTbTipo().getCodigo();
     parametros= parametros + "&" + nombrePar + "='+f1."+nombrePar+".value+'" ;
     %>
-    <td><div align="center"><input type="text" value=<%=cantidadPedido%> id="<%= nombrePar%>" name="<%= nombrePar%>" ></input></div></td>
+    <td><div align="center"><input type="text" value=<%=cantidadPedido%> id="<%= nombrePar%>" name="<%= nombrePar%>" maxlength="6"></input></div></td>
     
   </tr>
   <%} %>

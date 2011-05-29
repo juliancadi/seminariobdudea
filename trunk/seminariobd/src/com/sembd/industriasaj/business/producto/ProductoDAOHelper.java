@@ -16,5 +16,10 @@ public class ProductoDAOHelper {
         String result = "SELECT p.referencia, p.identificador, p.tipo.codigo, p.tipo.multiplo, p.descripcion,p.cant_stock,p.precio_unitario,p.valor_min,p.valor_optimo FROM tb_producto p WHERE p.tipo.codigo=? ORDER BY p.referencia";
         return result;
     }
+    
+    public static String updateProducto() {
+        String result = "UPDATE tb_producto SET cant_stock=? WHERE referencia=?";
+        return result;
+    }
 
 }

@@ -47,6 +47,12 @@ public class PedidoManager {
        return pedidos;
 	}
    
+   public List<PedidoDTO> getPedidosAFacturar(){
+       List<PedidoDTO> pedidos = null;
+       pedidos = dao.getPedidosAFacturar();
+       return pedidos;
+	}
+   
    public List<PedidoDTO> getPedidosPorProducto(ProductoDTO p){
        List<PedidoDTO> pedidos = null;
        pedidos = dao.getPedidosPorProducto(p);

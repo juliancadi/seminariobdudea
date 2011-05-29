@@ -2,6 +2,8 @@ package com.sembd.industriasaj.business.producto;
 
 import java.util.List;
 
+import com.sembd.industriasaj.business.pedido.PedidoDAOHelper;
+import com.sembd.industriasaj.business.pedido.PedidoDTO;
 import com.sembd.industriasaj.business.pedido.PedidoManager;
 import com.sembd.industriasaj.business.tipo.TipoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;
@@ -21,6 +23,32 @@ public class ProductoDAO {
             dao = new ProductoDAO();
         }
         return dao;
+    }
+    
+    public boolean updateProducto(ProductoDTO pr){
+        boolean result = false;
+        Connection con = null;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(ProductoDAOHelper.updateProducto());
+            
+            p.setInt(1, pr.getCantStock());
+            p.setString(2, pr.getReferencia());
+            
+            
+            p.execute();
+            result = true;
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
     }
 
     public ProductoDTO getProducto(ProductoDTO pd){
