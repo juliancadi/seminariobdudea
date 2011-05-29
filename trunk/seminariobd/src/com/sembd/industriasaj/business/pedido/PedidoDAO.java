@@ -97,6 +97,32 @@ public class PedidoDAO {
         return result;
     }
     
+    public boolean updatePedido(PedidoDTO pd){
+        boolean result = false;
+        Connection con = null;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(PedidoDAOHelper.updatePedido());
+            p.setInt(1, pd.getCantidad());
+            p.setString(2, pd.getEstado());
+            p.setString(3, pd.getCodigo());
+            
+            
+            p.execute();
+            result = true;
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
+    }
+    
     
     public boolean borrarPedido(PedidoDTO pd){
      
@@ -148,14 +174,14 @@ public class PedidoDAO {
                     pro.setValorMin(rs.getInt(10));
                     pro.setValorOptimo(rs.getInt(11));
                     ped.setTbProducto(pro);
-                    FacturaDTO fac = new FacturaDTO();
+                    /*FacturaDTO fac = new FacturaDTO();
                     fac.setCodigo(rs.getString(12));
                     fac.setFecha(rs.getDate(13));
                     fac.setBase(rs.getInt(14));
                     fac.setIva(rs.getInt(15));
                     fac.setTotal(rs.getInt(16));
-                    fac.setTbPedido(null);
-                    ped.setTbFactura(fac);
+                    fac.setTbPedido(null);*/
+                    ped.setTbFactura(null);
                     ped.setEstado(rs.getString(12));
                     EntregaManager em = EntregaManager.getEntregaManager();
                     ped.setTbEntregas(em.getEntregasPorPedido(ped));
@@ -180,6 +206,48 @@ public class PedidoDAO {
         try{
             con = DBConnection.getConnection();
             PreparedStatement p = con.prepareStatement(PedidoDAOHelper.getPedidosAEliminar());
+            ResultSet rs = p.executeQuery();
+            result = new ArrayList<PedidoDTO>();
+            while(rs.next()){
+            	PedidoDTO ped = new PedidoDTO();
+            	ped.setCodigo(rs.getString(1));
+            	ped.setFechaPedido(new Date(rs.getDate(2).getTime()));
+            	ped.setFechaEntrega(new Date(rs.getDate(3).getTime()));
+            	ped.setCantidad(rs.getInt(4));
+                ProductoDTO pro = new ProductoDTO();
+                pro.setReferencia(rs.getString(5));
+                pro.setIdentificador(rs.getString(6));
+                pro.setTbTipo(null);
+                pro.setDescripcion(rs.getString(7));
+                pro.setCantStock(rs.getInt(8));
+                pro.setPrecioUnitario(rs.getInt(9));
+                pro.setValorMin(rs.getInt(10));
+                pro.setValorOptimo(rs.getInt(11));
+                ped.setTbProducto(pro);
+                ped.setEstado(rs.getString(12));
+                EntregaManager em = EntregaManager.getEntregaManager();
+                ped.setTbEntregas(em.getEntregasPorPedido(ped));
+                result.add(ped);
+            }
+        }
+        catch(Exception ex){
+                ex.printStackTrace();
+        }
+        finally{
+            try{
+            	DBConnection.returnConnection(con);
+            }
+            catch(Exception clo){}
+        }
+        return result;
+}
+    
+    public List<PedidoDTO> getPedidosAModificar(){
+        List<PedidoDTO> result = null;
+        Connection con = null;
+        try{
+            con = DBConnection.getConnection();
+            PreparedStatement p = con.prepareStatement(PedidoDAOHelper.getPedidosAModificar());
             ResultSet rs = p.executeQuery();
             result = new ArrayList<PedidoDTO>();
             while(rs.next()){

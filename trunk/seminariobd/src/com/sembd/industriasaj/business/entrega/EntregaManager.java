@@ -35,6 +35,12 @@ public class EntregaManager {
        entregas = dao.getEntregasPorPedido(p);
        return entregas;
 	}
+   
+   public boolean insertEntrega(EntregaDTO e){
+
+       return dao.insertEntrega(e);
+
+	}
 
    public boolean existEntrega(EntregaDTO en){
        boolean result=dao.existEntrega(en);

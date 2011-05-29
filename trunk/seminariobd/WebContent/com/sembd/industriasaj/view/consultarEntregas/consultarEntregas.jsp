@@ -1,11 +1,20 @@
+<%@page import="com.sembd.industriasaj.business.entrega.EntregaManager"%>
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@page import="com.sembd.industriasaj.business.producto.ProductoDTO"%>
-<%@page import="com.sembd.industriasaj.business.producto.ProductoManager"%>
+<%@page import="com.sembd.industriasaj.business.pedido.PedidoDTO"%>
+<%@page import="com.sembd.industriasaj.business.pedido.PedidoManager"%>
+<%@page import="com.sembd.industriasaj.business.entrega.EntregaManager"%>
+<%@page import="com.sembd.industriasaj.business.entrega.EntregaDTO"%>
 <%@page import="java.util.List"%>
+
+
 <%
-ProductoManager pm = ProductoManager.getProductoManager();
-List<ProductoDTO> productos = pm.getProductos();
+
+
+PedidoManager pm = PedidoManager.getPedidoManager();
+PedidoDTO pedido = new PedidoDTO();
+
+List<PedidoDTO> pedidos = pm.getPedidos();
 
 %>
 
@@ -37,16 +46,7 @@ body {
 -->
 </style>
 <script src="css/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
-<script src="javascript/refrescarContenido.js" type="text/javascript"></script>
 <link href="css/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
-
-<style type="text/css">
-<!--
-.style1 {
-	font-size: x-large
-}
--->
-</style>
 </head>
 
 <body class="oneColLiqCtrHdr">
@@ -55,27 +55,28 @@ body {
   <div id="mainContent">
     <h1 align="center">Consultar Entregas por Pedido</h1>
     <form id="form1" name="form1" method="post" action="">
-    <span id="spryselect1">
-        <label>Producto:
-          <select name="lista_productos" id="lista_productos" onchange="javascript:refresh('informacion', this.value);">
+        <span id="spryselect1"><strong>
+
+        <label>Pedido:</label>
+        </strong></span><span id="spryselect1"><label>
+        <select name="lista_pedidos" id="lista_pedidos" onchange="javascript:Carga('com/sembd/industriasaj/view/consultarEntregas/consultarEntregasReport.jsp?cod='+this.value,'informacion');">
+         <option value="0"> - </option>
           <% 
-          if(productos.size()!=0){
-          for(int i=0;i<productos.size();i++){
-          		ProductoDTO p = productos.get(i);
+          if(pedidos.size()!=0){
+          for(int i=0;i<pedidos.size();i++){
+          		PedidoDTO p = pedidos.get(i);
           	%>
-            <option value="<%=p.getReferencia()%>"><%=p.getReferencia()%></option>
+          <option value="<%=p.getCodigo()%>"><%=p.getCodigo()%></option>
           <% }
              }%>
         </select>
       </label>
-        <span class="selectRequiredMsg">Por favor seleccione un producto.</span></span>
+        <span class="selectRequiredMsg">Por favor seleccione un pedido.</span></span>
     </form>
     <p>&nbsp;</p>
-    <div id="informacion"> </div>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+    <div id="informacion">
+            
+    </div>
     <p>&nbsp;</p>
   <!-- end #mainContent --></div>
 <!-- end #container --></div>

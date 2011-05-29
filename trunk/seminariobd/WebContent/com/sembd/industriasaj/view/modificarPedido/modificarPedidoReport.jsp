@@ -1,6 +1,20 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="com.sembd.industriasaj.business.pedido.PedidoDTO"%>
+<%@page import="com.sembd.industriasaj.business.pedido.PedidoManager"%>
+<%@page import="java.util.List"%>
+<%
+String codigo = (String)request.getParameter("cod");
+PedidoManager pm = PedidoManager.getPedidoManager();
+PedidoDTO pedido = new PedidoDTO();
+PedidoDTO pedidoConsultado = null;
+if(codigo!=null){
+	pedido.setCodigo(codigo);
+	pedidoConsultado = pm.getPedido(pedido);
+}
 
+
+%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -41,28 +55,56 @@ body {
 </style>
 </head>
 
-<body class="oneColLiqCtrHdr">
+<body class="oneColLiqCtrHdr" >
 
 <div id="container">
-  <div id="mainContent">
-    <h1 align="center"><%= request.getParameter("ref") %></h1>
-    <form id="form1" name="form1" method="post" action="">
+    <form id="f1" name="f1" method="post" action="">
+    <%if(pedidoConsultado!=null){ %>
+<table width="500" border="0">
+  <tr>
+    <td width="128"><div align="right" style="font-weight: bold;">Codigo:</div></td>
+    <td width="199"><%=pedidoConsultado.getCodigo() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Fecha de Pedido:</div></td>
+    <td><%=pedidoConsultado.getFechaPedido() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Fecha de entrega:</div></td>
+    <td><%=pedidoConsultado.getFechaEntrega() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Cantidad:</div></td>
+    <td><input type="text" value=<%=pedidoConsultado.getCantidad()%> id="cantidadNueva" name="cantidadNueva" ></input></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Producto:</div></td>
+    <td><%=pedidoConsultado.getTbProducto().getReferencia() %></td>
+  </tr>
+  <tr>
+    <td><div align="right" style="font-weight: bold;">Estado:</div></td>
+    <td><%=pedidoConsultado.getEstado()%></td>
+  </tr>
 
-        
+</table>
+  
+    <div align="center" style="color: red;"> &nbsp;
+    <input type="button" value="Guardar" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/modificarPedido/modificarPedido.jsp?codPed=<%=pedidoConsultado.getCodigo() %>&cant='+f1.cantidadNueva.value,'mainContent');" ></input>
+    </div>
+
+        <%} %>
     </form>
-    <p>&nbsp;</p>
-    <div id="informacion"> <%= request.getParameter("ref") %> </div>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-  <!-- end #mainContent --></div>
 <!-- end #container --></div>
 <script type="text/javascript">
 <!--
+<div id="informacion"></div>
+<p>&nbsp;</p>
+<!-- end mainContent -->
+</div>
 var spryselect1 = new Spry.Widget.ValidationSelect("spryselect1");
 //-->
 </script>
 </body>
 </html>
+
+
