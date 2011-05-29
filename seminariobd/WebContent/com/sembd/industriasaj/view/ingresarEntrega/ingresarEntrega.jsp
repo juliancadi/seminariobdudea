@@ -5,6 +5,8 @@
 <%@page import="com.sembd.industriasaj.business.pedido.PedidoManager"%>
 <%@page import="com.sembd.industriasaj.business.entrega.EntregaManager"%>
 <%@page import="com.sembd.industriasaj.business.entrega.EntregaDTO"%>
+<%@page import="com.sembd.industriasaj.business.producto.ProductoDTO"%>
+<%@page import="com.sembd.industriasaj.business.producto.ProductoManager"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Calendar"%>
 
@@ -16,14 +18,17 @@ String cantidadNueva = (String)request.getParameter("cant");
 String faltante = (String)request.getParameter("faltante");
 
 PedidoManager pm = PedidoManager.getPedidoManager();
+ProductoManager prm = ProductoManager.getProductoManager();
 EntregaManager em = EntregaManager.getEntregaManager();
 PedidoDTO pedido = new PedidoDTO();
+ProductoDTO producto = new ProductoDTO();
 EntregaDTO entregaNueva = new EntregaDTO();
 boolean insertado = false;
-String msgError = "No se pudo modificar el pedido porque hay un problema con la base de datos.";
+String msgError = "No se pudo ingresar la entrega porque hay un problema con la base de datos.";
 
 if(codigo!=null && cantidadNueva!=null){
 	pedido.setCodigo(codigo);
+	pedido = pm.getPedido(pedido);
 	int cantInt = Integer.parseInt(cantidadNueva);
 	int faltInt = Integer.parseInt(faltante);
 	
@@ -36,12 +41,16 @@ if(codigo!=null && cantidadNueva!=null){
 	if(cantInt==faltInt){
 		pedido.setCantidad(pm.getPedido(pedido).getCantidad());
 		pedido.setEstado("Completo");
-		insertado = em.insertEntrega(entregaNueva) && pm.updatePedido(pedido);
+		producto.setReferencia(pedido.getTbProducto().getReferencia());
+		producto.setCantStock(pedido.getTbProducto().getCantStock()+cantInt);
+		insertado = em.insertEntrega(entregaNueva) && pm.updatePedido(pedido) && prm.updateProducto(producto);
 	}else{
 		if(cantInt<faltInt){
 			pedido.setCantidad(pm.getPedido(pedido).getCantidad());
 			pedido.setEstado("Incompleto");
-			insertado = em.insertEntrega(entregaNueva) && pm.updatePedido(pedido);
+			producto.setReferencia(pedido.getTbProducto().getReferencia());
+			producto.setCantStock(pedido.getTbProducto().getCantStock()+cantInt);
+			insertado = em.insertEntrega(entregaNueva) && pm.updatePedido(pedido)&& prm.updateProducto(producto);
 		}else{
 			insertado = false;
 			msgError = "La cantidad de la entrega supera la del pedido.";

@@ -2,6 +2,7 @@ package com.sembd.industriasaj.business.producto;
 
 import java.util.List;
 
+import com.sembd.industriasaj.business.entrega.EntregaManager;
 import com.sembd.industriasaj.business.tipo.TipoDTO;
 
 public class ProductoManager {
@@ -44,9 +45,18 @@ public class ProductoManager {
    
    public int getCantidadPedida(ProductoDTO p){
 	   int cantidadPedida = 0;
+	  
        if(p.getTbPedidos()!=null){
            for(int i=0; i<p.getTbPedidos().size();i++){
-           	cantidadPedida = cantidadPedida + p.getTbPedidos().get(i).getCantidad();
+        	   if(!p.getTbPedidos().get(i).getEstado().equals("Completo")){
+		           	int cantidadEntregada = 0;
+		           	EntregaManager em = EntregaManager.getEntregaManager();
+		           	p.getTbPedidos().get(i).setTbEntregas(em.getEntregasPorPedido(p.getTbPedidos().get(i)));
+		           	for(int j=0; j<p.getTbPedidos().get(i).getTbEntregas().size();j++){
+		               	cantidadEntregada = cantidadEntregada + p.getTbPedidos().get(i).getTbEntregas().get(j).getCantidad();
+		           	}
+		           	cantidadPedida = cantidadPedida + p.getTbPedidos().get(i).getCantidad() - cantidadEntregada;
+        	   }
            }
        }
        return cantidadPedida;
@@ -55,6 +65,10 @@ public class ProductoManager {
    public boolean existProducto(ProductoDTO p){
        boolean result=dao.existProducto(p);
        return result;
+   }
+   
+   public boolean updateProducto(ProductoDTO p){
+	   return dao.updateProducto(p);
    }
 
 }

@@ -1,11 +1,49 @@
+<%@page import="com.sembd.industriasaj.business.entrega.EntregaManager"%>
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@page import="com.sembd.industriasaj.business.producto.ProductoDTO"%>
-<%@page import="com.sembd.industriasaj.business.producto.ProductoManager"%>
+<%@page import="com.sembd.industriasaj.business.pedido.PedidoDTO"%>
+<%@page import="com.sembd.industriasaj.business.pedido.PedidoManager"%>
+<%@page import="com.sembd.industriasaj.business.entrega.EntregaManager"%>
+<%@page import="com.sembd.industriasaj.business.entrega.EntregaDTO"%>
+<%@page import="com.sembd.industriasaj.business.factura.FacturaDTO"%>
+<%@page import="com.sembd.industriasaj.business.factura.FacturaManager"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Calendar"%>
+
+
 <%
-ProductoManager pm = ProductoManager.getProductoManager();
-List<ProductoDTO> productos = pm.getProductos();
+
+String codigo = (String)request.getParameter("codPed");
+String base = (String)request.getParameter("base");
+
+PedidoManager pm = PedidoManager.getPedidoManager();
+FacturaManager fm = FacturaManager.getFacturaManager();
+PedidoDTO pedido = new PedidoDTO();
+FacturaDTO facturaNueva = new FacturaDTO();
+boolean insertado = false;
+String msgError = "No se pudo ingresar la factura porque hay un problema con la base de datos.";
+
+if(codigo!=null && base!=null){
+	pedido.setCodigo(codigo);
+	double baseInt = Double.parseDouble(base);
+	double iva = baseInt*0.16;
+	double total = iva + baseInt;
+	
+	
+	facturaNueva.setCodigo("0");
+	Calendar calendar = Calendar.getInstance();
+	facturaNueva.setFecha(new Date(calendar.getTime().getTime()));
+	facturaNueva.setBase((int)baseInt);
+	facturaNueva.setIva((int)iva);
+	facturaNueva.setTotal((int)total);
+	facturaNueva.setTbPedido(pm.getPedido(pedido));
+	
+	insertado = fm.insertFactura(facturaNueva);
+
+}
+
+List<PedidoDTO> pedidos = pm.getPedidosAFacturar();
+
 
 %>
 
@@ -37,16 +75,7 @@ body {
 -->
 </style>
 <script src="css/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
-<script src="javascript/refrescarContenido.js" type="text/javascript"></script>
 <link href="css/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />
-
-<style type="text/css">
-<!--
-.style1 {
-	font-size: x-large
-}
--->
-</style>
 </head>
 
 <body class="oneColLiqCtrHdr">
@@ -55,27 +84,34 @@ body {
   <div id="mainContent">
     <h1 align="center">Ingresar Factura</h1>
     <form id="form1" name="form1" method="post" action="">
-    <span id="spryselect1">
-        <label>Producto:
-          <select name="lista_productos" id="lista_productos" onchange="javascript:refresh('informacion', this.value);">
+        <span id="spryselect1"><strong>
+
+        <label>Pedido:</label>
+        </strong></span><span id="spryselect1"><label>
+        <select name="lista_pedidos" id="lista_pedidos" onchange="javascript:Carga('com/sembd/industriasaj/view/ingresarFactura/ingresarFacturaReport.jsp?cod='+this.value,'informacion');">
+         <option value="0"> - </option>
           <% 
-          if(productos.size()!=0){
-          for(int i=0;i<productos.size();i++){
-          		ProductoDTO p = productos.get(i);
+          if(pedidos.size()!=0){
+          for(int i=0;i<pedidos.size();i++){
+          		PedidoDTO p = pedidos.get(i);
           	%>
-            <option value="<%=p.getReferencia()%>"><%=p.getReferencia()%></option>
+          <option value="<%=p.getCodigo()%>"><%=p.getCodigo()%></option>
           <% }
              }%>
         </select>
       </label>
-        <span class="selectRequiredMsg">Por favor seleccione un producto.</span></span>
+        <span class="selectRequiredMsg">Por favor seleccione un pedido.</span></span>
     </form>
     <p>&nbsp;</p>
-    <div id="informacion"> </div>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+    <div id="informacion">
+            <%if(insertado){ %>
+        	<span style="color: green;">La factura ha sido insertada exitosamente.</span>
+        <%}else{ 
+        	if(codigo!=null){%>
+        	<span style="color: red;"><%= msgError %></span>
+        <%	}
+        } %>
+    </div>
     <p>&nbsp;</p>
   <!-- end #mainContent --></div>
 <!-- end #container --></div>

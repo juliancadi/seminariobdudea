@@ -19,6 +19,12 @@ public class PedidoDAOHelper {
     	return result;
     }
     
+    public static String getPedidosAFacturar() {
+    	String result = "SELECT p.codigo, p.fecha_pedido, p.fecha_entrega, p.cantidad, p.referencia.referencia, p.referencia.identificador, p.referencia.descripcion,p.referencia.cant_stock,p.referencia.precio_unitario,p.referencia.valor_min,p.referencia.valor_optimo, p.estado FROM tb_pedido p WHERE p.estado='Completo' ORDER BY p.codigo";
+    	
+    	return result;
+    }
+    
     public static String getPedidosAModificar() {
     	String result = "SELECT p.codigo, p.fecha_pedido, p.fecha_entrega, p.cantidad, p.referencia.referencia, p.referencia.identificador, p.referencia.descripcion,p.referencia.cant_stock,p.referencia.precio_unitario,p.referencia.valor_min,p.referencia.valor_optimo, p.estado FROM tb_pedido p WHERE p.estado='Pendiente' OR p.estado='Incompleto' ORDER BY p.codigo";
     	
