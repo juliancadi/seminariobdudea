@@ -34,6 +34,7 @@ if(referencia!=null){
 	try{
 		for(int i = 0; i< productosConsultados.size();i++){
 			int nuevaCantidad = Integer.parseInt(request.getParameter(productosConsultados.get(i).getIdentificador()+productosConsultados.get(i).getTbTipo().getCodigo()));
+			
 		}
 		insertados=true;
 		for(int i = 0; i< productosConsultados.size();i++){
@@ -41,6 +42,10 @@ if(referencia!=null){
 			int nuevaCantidad = Integer.parseInt(request.getParameter(productosConsultados.get(i).getIdentificador()+productosConsultados.get(i).getTbTipo().getCodigo()));
 			PedidoDTO nuevoPedido = new PedidoDTO();
 			nuevoPedido.setCodigo("0");
+			int modulo = nuevaCantidad % productosConsultados.get(i).getTbTipo().getMultiplo();
+			if (modulo != 0){
+				  nuevaCantidad = nuevaCantidad - modulo + productosConsultados.get(i).getTbTipo().getMultiplo();
+			}
 			nuevoPedido.setCantidad(nuevaCantidad);
 			nuevoPedido.setEstado("Pendiente");
 			Calendar calendar = Calendar.getInstance();
