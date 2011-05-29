@@ -23,15 +23,15 @@ public class DBConnection {
         String validationQuery = null;
 		try {
 			ResourceBundle rb = ResourceBundle.getBundle(path);
-            urlDb = rb.getString("serviteca.oracle.url");
-            usuarioDb = rb.getString("serviteca.oracle.username");
-            passwordDb = rb.getString("serviteca.oracle.password");
-            driver = rb.getString("serviteca.oracle.driver");
-            initialSize = rb.getString("serviteca.oracle.initialsize");
-            maxActive = rb.getString("serviteca.oracle.maxactive");
-            maxIdle = rb.getString("serviteca.oracle.maxidle");
-            maxWait = rb.getString("serviteca.oracle.maxwait");
-            validationQuery = rb.getString("serviteca.oracle.validationquery");
+            urlDb = rb.getString("seminariobd.oracle.url");
+            usuarioDb = rb.getString("seminariobd.oracle.username");
+            passwordDb = rb.getString("seminariobd.oracle.password");
+            driver = rb.getString("seminariobd.oracle.driver");
+            initialSize = rb.getString("seminariobd.oracle.initialsize");
+            maxActive = rb.getString("seminariobd.oracle.maxactive");
+            maxIdle = rb.getString("seminariobd.oracle.maxidle");
+            maxWait = rb.getString("seminariobd.oracle.maxwait");
+            validationQuery = rb.getString("seminariobd.oracle.validationquery");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
