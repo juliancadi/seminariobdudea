@@ -1,3 +1,17 @@
+drop table tb_tipo force;
+drop table tb_producto force;
+drop table tb_pedido force;
+drop table tb_entrega force;
+drop table tb_factura force;
+drop type ty_tipo force;
+drop type ty_producto force;
+drop type ty_pedido force;
+drop type ty_entrega force;
+drop type ty_factura force;
+drop sequence seq_entrega;
+drop sequence seq_factura;
+drop sequence seq_pedido;
+
 create or replace type ty_tipo as object(
   codigo varchar2(5),
   multiplo number
@@ -9,9 +23,18 @@ alter table tb_tipo add constraint tb_tipo_pk primary key (codigo);
 insert into tb_tipo values('01', 4);
 insert into tb_tipo values('02', 7);
 insert into tb_tipo values('03', 16);
+insert into tb_tipo values('04', 1);
 insert into tb_tipo values('05', 5);
 insert into tb_tipo values('06', 8);
+insert into tb_tipo values('07', 1);
 insert into tb_tipo values('08', 25);
+insert into tb_tipo values('09', 1);
+insert into tb_tipo values('10', 1);
+insert into tb_tipo values('11', 1);
+insert into tb_tipo values('12', 1);
+insert into tb_tipo values('13', 1);
+insert into tb_tipo values('14', 1);
+insert into tb_tipo values('15', 1);
 
 
 create or replace type ty_producto as object(
@@ -36,7 +59,7 @@ insert into tb_producto values ('def-02','def',(select ref(t) from tb_tipo t whe
 insert into tb_producto values ('efg-03','efg',(select ref(t) from tb_tipo t where t.codigo='03'), 'Falda larga verde', 200, 15000, 50, 60);
 insert into tb_producto values ('fgh-03','fgh',(select ref(t) from tb_tipo t where t.codigo='03'), 'Minifalda rosada', 0, 25000, 40, 55);
 insert into tb_producto values ('ghi-05','ghi',(select ref(t) from tb_tipo t where t.codigo='05'), 'Camisa de rayas talla L', 10, 30000, 30, 50);
-insert into tb_producto values ('hij-05','hij',(select ref(t) from tb_tipo t where t.codigo='05'), 'Blusa escotada con perlas estampadas', 60, 4000, 40, 90);
+insert into tb_producto values ('hij-05','hij',(select ref(t) from tb_tipo t where t.codigo='04'), 'Blusa escotada con perlas estampadas', 60, 4000, 40, 90);
 insert into tb_producto values ('ijk-06','ijk',(select ref(t) from tb_tipo t where t.codigo='06'), 'Sandalias de playa', 100, 120000, 50, 90);
 insert into tb_producto values ('jkl-06','jkl',(select ref(t) from tb_tipo t where t.codigo='06'), 'Medias color blanco', 10, 40000, 60, 65);
 insert into tb_producto values ('klm-08','klm',(select ref(t) from tb_tipo t where t.codigo='08'), 'Blue-jean desteñido', 200, 15000, 50, 60);
@@ -49,14 +72,14 @@ insert into tb_producto values ('qrs-03','qrs',(select ref(t) from tb_tipo t whe
 insert into tb_producto values ('rst-03','rst',(select ref(t) from tb_tipo t where t.codigo='03'), 'Minifalda rosada', 0, 25000, 40, 55);
 insert into tb_producto values ('stu-05','stu',(select ref(t) from tb_tipo t where t.codigo='05'), 'Camisa de rayas talla L', 10, 30000, 30, 50);
 insert into tb_producto values ('tuv-05','tuv',(select ref(t) from tb_tipo t where t.codigo='05'), 'Blusa escotada con perlas estampadas', 60, 4000, 40, 90);
-insert into tb_producto values ('uvw-06','uvw',(select ref(t) from tb_tipo t where t.codigo='06'), 'Sandalias de playa', 100, 120000, 50, 90);
+insert into tb_producto values ('uvw-06','uvw',(select ref(t) from tb_tipo t where t.codigo='09'), 'Sandalias de playa', 100, 120000, 50, 90);
 insert into tb_producto values ('vwx-06','vwx',(select ref(t) from tb_tipo t where t.codigo='06'), 'Medias color blanco', 10, 40000, 60, 65);
 insert into tb_producto values ('wxy-08','wxy',(select ref(t) from tb_tipo t where t.codigo='08'), 'Blue-jean desteñido', 200, 15000, 50, 60);
 insert into tb_producto values ('xyz-08','xyz',(select ref(t) from tb_tipo t where t.codigo='08'), 'Tennis azules fosforecentes', 0, 25000, 40, 55);
 insert into tb_producto values ('yza-01','yza',(select ref(t) from tb_tipo t where t.codigo='01'), 'Camiseta masculina color azul talla XL', 10, 30000, 30, 50);
 insert into tb_producto values ('zab-01','zab',(select ref(t) from tb_tipo t where t.codigo='01'), 'Jean para dama color rojo talla M', 60, 4000, 40, 90);
 insert into tb_producto values ('zyx-02','zyx',(select ref(t) from tb_tipo t where t.codigo='02'), 'Correas militares con chapa de plata', 100, 120000, 50, 90);
-insert into tb_producto values ('yxw-02','yxw',(select ref(t) from tb_tipo t where t.codigo='02'), 'Blusa de dama estampada', 10, 40000, 60, 65);
+insert into tb_producto values ('yxw-02','yxw',(select ref(t) from tb_tipo t where t.codigo='11'), 'Blusa de dama estampada', 10, 40000, 60, 65);
 insert into tb_producto values ('xwv-03','xwv',(select ref(t) from tb_tipo t where t.codigo='03'), 'Falda larga verde', 200, 15000, 50, 60);
 insert into tb_producto values ('wvu-03','wvu',(select ref(t) from tb_tipo t where t.codigo='03'), 'Minifalda rosada', 0, 25000, 40, 55);
 insert into tb_producto values ('vut-05','vut',(select ref(t) from tb_tipo t where t.codigo='05'), 'Camisa de rayas talla L', 10, 30000, 30, 50);
@@ -65,7 +88,7 @@ insert into tb_producto values ('tsr-06','tsr',(select ref(t) from tb_tipo t whe
 insert into tb_producto values ('srq-06','srq',(select ref(t) from tb_tipo t where t.codigo='06'), 'Medias color blanco', 10, 40000, 60, 65);
 insert into tb_producto values ('rqp-08','rqp',(select ref(t) from tb_tipo t where t.codigo='08'), 'Blue-jean desteñido', 200, 15000, 50, 60);
 insert into tb_producto values ('qpo-08','qpo',(select ref(t) from tb_tipo t where t.codigo='08'), 'Tennis azules fosforecentes', 0, 25000, 40, 55);
-insert into tb_producto values ('pon-01','pon',(select ref(t) from tb_tipo t where t.codigo='01'), 'Camiseta masculina color azul talla XL', 10, 30000, 30, 50);
+insert into tb_producto values ('pon-01','pon',(select ref(t) from tb_tipo t where t.codigo='15'), 'Camiseta masculina color azul talla XL', 10, 30000, 30, 50);
 insert into tb_producto values ('onm-01','onm',(select ref(t) from tb_tipo t where t.codigo='01'), 'Jean para dama color rojo talla M', 60, 4000, 40, 90);
 insert into tb_producto values ('nml-02','nml',(select ref(t) from tb_tipo t where t.codigo='02'), 'Correas militares con chapa de plata', 100, 120000, 50, 90);
 insert into tb_producto values ('mlk-02','mlk',(select ref(t) from tb_tipo t where t.codigo='02'), 'Blusa de dama estampada', 10, 40000, 60, 65);
@@ -120,17 +143,45 @@ create table tb_factura of ty_factura;
 alter table tb_factura add constraint tb_factura_pk primary key (codigo);
 /
 
-CREATE SEQUENCE secuencia_pedido
+CREATE SEQUENCE seq_pedido
 INCREMENT BY 1
 START WITH 1
 NOMINVALUE
 NOMAXVALUE;
 
-CREATE TRIGGER autoincrementar_pedido
+CREATE TRIGGER tg_pedido
 BEFORE INSERT ON tb_pedido
 FOR EACH ROW
 BEGIN
-SELECT secuencia_pedido.NEXTVAL INTO :NEW.codigo FROM dual;
+SELECT seq_pedido.NEXTVAL INTO :NEW.codigo FROM dual;
+END;
+/
+
+CREATE SEQUENCE seq_entrega
+INCREMENT BY 1
+START WITH 1
+NOMINVALUE
+NOMAXVALUE;
+
+CREATE TRIGGER tg_entrega
+BEFORE INSERT ON tb_entrega
+FOR EACH ROW
+BEGIN
+SELECT seq_entrega.NEXTVAL INTO :NEW.codigo FROM dual;
+END;
+/
+
+CREATE SEQUENCE seq_factura
+INCREMENT BY 1
+START WITH 1
+NOMINVALUE
+NOMAXVALUE;
+
+CREATE TRIGGER tg_factura
+BEFORE INSERT ON tb_factura
+FOR EACH ROW
+BEGIN
+SELECT seq_factura.NEXTVAL INTO :NEW.codigo FROM dual;
 END;
 /
 

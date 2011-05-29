@@ -82,7 +82,7 @@ body {
 	}
 	int faltante = pedidoConsultado.getCantidad()- totalEntregas;
     %>
-    <td><input type="text" value=<%=faltante%> id="cantidadNueva" name="cantidadNueva" ></input></td>
+    <td><input type="text" value=<%=faltante%> id="cantidadNueva" name="cantidadNueva" maxlength="6"></input></td>
   </tr>
 
 

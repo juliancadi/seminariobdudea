@@ -20,26 +20,33 @@ boolean modificado = false;
 String msgError = "No se pudo modificar el pedido porque hay un problema con la base de datos.";
 
 if(codigo!=null && cantidadNueva!=null){
-	pedido.setCodigo(codigo);
-	int cantInt = Integer.parseInt(cantidadNueva);
-	pedido.setCantidad(cantInt);
 	
-	List<EntregaDTO> entregas = em.getEntregasPorPedido(pedido);
-	int totalEntregas = 0;
-	for(int j=0; j<entregas.size();j++){
-		totalEntregas = totalEntregas + entregas.get(j).getCantidad();
-	}
-	if(cantInt==totalEntregas){
-		pedido.setEstado("Completo");
-		modificado = pm.updatePedido(pedido);
-	}else{
-		if(cantInt>totalEntregas){
-			pedido.setEstado(pm.getPedido(pedido).getEstado());
+	try{
+		int cantInt = Integer.parseInt(cantidadNueva);
+		pedido.setCodigo(codigo);
+		pedido.setCantidad(cantInt);
+		
+		List<EntregaDTO> entregas = em.getEntregasPorPedido(pedido);
+		int totalEntregas = 0;
+		for(int j=0; j<entregas.size();j++){
+			totalEntregas = totalEntregas + entregas.get(j).getCantidad();
+		}
+		if(cantInt==totalEntregas){
+			pedido.setEstado("Completo");
 			modificado = pm.updatePedido(pedido);
 		}else{
-			modificado = false;
-			msgError = "La cantidad es menor a la que ya ha sido entregada.";
+			if(cantInt>totalEntregas){
+				pedido.setEstado(pm.getPedido(pedido).getEstado());
+				modificado = pm.updatePedido(pedido);
+			}else{
+				modificado = false;
+				msgError = "La cantidad es menor a la que ya ha sido entregada.";
+			}
 		}
+	}
+	catch(NumberFormatException err){
+		modificado = false;
+		msgError = "La cantidad no puede quedar en blanco o contener caracteres alfabeticos.";
 	}
 }
 
@@ -96,7 +103,7 @@ body {
           for(int i=0;i<pedidos.size();i++){
           		PedidoDTO p = pedidos.get(i);
           	%>
-          <option value="<%=p.getCodigo()%>"><%=p.getCodigo()%></option>
+          <option value="<%=p.getCodigo()%>"><%=p.getCodigo()+" Producto: "+p.getTbProducto().getReferencia()%></option>
           <% }
              }%>
         </select>

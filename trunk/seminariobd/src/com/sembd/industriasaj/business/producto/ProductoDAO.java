@@ -1,9 +1,6 @@
 package com.sembd.industriasaj.business.producto;
 
 import java.util.List;
-
-import com.sembd.industriasaj.business.pedido.PedidoDAOHelper;
-import com.sembd.industriasaj.business.pedido.PedidoDTO;
 import com.sembd.industriasaj.business.pedido.PedidoManager;
 import com.sembd.industriasaj.business.tipo.TipoDTO;
 import com.sembd.industriasaj.services.connection.DBConnection;

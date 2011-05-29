@@ -2,11 +2,65 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@page import="com.sembd.industriasaj.business.producto.ProductoDTO"%>
 <%@page import="com.sembd.industriasaj.business.producto.ProductoManager"%>
+<%@page import="com.sembd.industriasaj.business.pedido.PedidoManager"%>
+<%@page import="com.sembd.industriasaj.business.pedido.PedidoDTO"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Calendar"%>
 <%
 
 ProductoManager pm = ProductoManager.getProductoManager();
 List<ProductoDTO> productos = pm.getProductos();
+
+
+String referencia = request.getParameter("producto");
+String msgError = "No se pudo ingresar la entrega porque hay un problema con la base de datos.";
+boolean insertados = false;
+
+if(referencia!=null){
+	
+	List<ProductoDTO> productosConsultados = null;
+	ProductoDTO producto = new ProductoDTO();
+	PedidoManager pem = PedidoManager.getPedidoManager();
+	if(referencia.equals("0")){
+		productosConsultados = pm.getProductosDebajoDelMin();
+	}
+	else{
+		producto.setReferencia(referencia);
+		productosConsultados = new ArrayList<ProductoDTO>();
+		productosConsultados.add(pm.getProducto(producto));
+	}
+	
+	try{
+		for(int i = 0; i< productosConsultados.size();i++){
+			int nuevaCantidad = Integer.parseInt(request.getParameter(productosConsultados.get(i).getIdentificador()+productosConsultados.get(i).getTbTipo().getCodigo()));
+		}
+		insertados=true;
+		for(int i = 0; i< productosConsultados.size();i++){
+			producto = productosConsultados.get(i);
+			int nuevaCantidad = Integer.parseInt(request.getParameter(productosConsultados.get(i).getIdentificador()+productosConsultados.get(i).getTbTipo().getCodigo()));
+			PedidoDTO nuevoPedido = new PedidoDTO();
+			nuevoPedido.setCodigo("0");
+			nuevoPedido.setCantidad(nuevaCantidad);
+			nuevoPedido.setEstado("Pendiente");
+			Calendar calendar = Calendar.getInstance();
+			nuevoPedido.setFechaPedido(new Date(calendar.getTime().getTime()));
+			calendar.add(Calendar.DAY_OF_MONTH, 3);
+			nuevoPedido.setFechaEntrega(new Date(calendar.getTime().getTime()+3));
+			nuevoPedido.setTbFactura(null);
+			nuevoPedido.setTbEntregas(null);
+			nuevoPedido.setTbProducto(producto);
+			insertados = pem.insertPedido(nuevoPedido)&& insertados;
+			
+		}
+	}
+	catch(NumberFormatException err){
+		
+		msgError = "Los valores no pueden quedar en blanco o contener caracteres alfabeticos.";
+	}
+	
+	
+}
 
 %>
 
@@ -74,7 +128,15 @@ body {
         <input type="button" value="Ver lista productos debajo del minimo" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductosReport2.jsp?ref=0','mainContent');"/>
     </form>
     <p>&nbsp;</p>
-    <div id="informacion"> </div>
+    <div id="informacion"> 
+    <%if(insertados){ %>
+        	<span style="color: green;">Los pedidos han sido insertados exitosamente.</span>
+        <%}else{ 
+        	if(referencia!=null){%>
+        	<span style="color: red;"><%= msgError %></span>
+        <%	}
+        } %>
+    </div>
   <!-- end #mainContent --></div>
 <!-- end #container --></div>
 <script type="text/javascript">

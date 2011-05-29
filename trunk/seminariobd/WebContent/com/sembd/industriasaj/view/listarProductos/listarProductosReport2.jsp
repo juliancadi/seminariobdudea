@@ -127,7 +127,7 @@ if(productosConsultados!=null && productosConsultados.size()>0){%>
     <td style="border: none;">&nbsp;</td>
     <td style="border: none;">&nbsp;</td>
     <td style="border: none;"><div align="center"><input type="button" value="Cancelar" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp','mainContent');" /></div></td>
-    <td style="border: none;"><div align="center"><input type="button" value="Realizar Pedido" onclick="javascript:CargaServlet('IngresarPedidosCTRL?<%=parametros%>','mainContent'); CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp','mainContent');" /></div></td>
+    <td style="border: none;"><div align="center"><input type="button" value="Realizar Pedido" onclick="javascript:CargaPadre('com/sembd/industriasaj/view/listarProductos/listarProductos.jsp?<%=parametros%>','mainContent'); " /></div></td>
   </tr>
   
 </table>
